@@ -145,7 +145,7 @@ target.toLowerCase().replace(/ /g,'-');
 			"fell into the void.",
 			"went into a cave without a repel!",
 			"has left the building.",
-			"was forced to give BlakJack's mom an oil massage!",
+			"was forced to give BeforeMath's mom an oil massage!",
 			"was hit by Magikarp's Revenge!",
 			"ate a bomb!",
 			"is blasting off again!",
@@ -528,7 +528,7 @@ target.toLowerCase().replace(/ /g,'-');
 
 	shop: function(target, room, user) {
 		if (!this.canBroadcast()) return;
-		this.sendReplyBox('<center><h4><b><u>The InterVersal Shop</u></b></h4><table border="1" cellspacing="0" cellpadding="3"><tr><th>Items</th><th>Description</th><th>Cost</th></tr><tr><td>Symbol</td><td>Buys a custom symbol to go infront of name and puts you at top of userlist. (temporary until restart)</td><td>5</td></tr><tr><td>Fix</td><td>Buys the ability to alter your current custom avatar or trainer card. (don\'t buy if you have neither)</td><td>10</td></tr><tr><td>Poof</td><td>Buys the ability to add a custom poof.</td><td>15</td></tr><tr><td>Custom</td><td>Buys a custom avatar to be applied to your name. (you supply)</td><td>20</td></tr><tr><td>Animated</td><td>Buys an animated avatar to be applied to your name. (you supply)</td><td>25</td></tr><tr><td>Trainer</td><td>Buys a trainer card which shows information through a command such as <i>/blakjack</i>.</td><td>30</td></tr><tr><td>Room</td><td>Buys a chatroom for you to own. (within reason, can be refused)</td><td>50</td></tr><tr><td>Voice</td><td>Buys a promotion to global voice.</td><td>100</td></tr><tr><td>Player</td><td>Buys a promotion to room player of any room you want.</td><td>250</td></tr></table></table><br/>To buy an item from the shop, use /buy <i>command</i>. <br/></center>');
+		this.sendReplyBox('<center><h4><b><u>The InterVersal Shop</u></b></h4><table border="1" cellspacing="0" cellpadding="3"><tr><th>Items</th><th>Description</th><th>Cost</th></tr><tr><td>Symbol</td><td>Buys a custom symbol to go infront of name and puts you at top of userlist. (temporary until restart)</td><td>5</td></tr><tr><td>Fix</td><td>Buys the ability to alter your current custom avatar or trainer card. (don\'t buy if you have neither)</td><td>10</td></tr><tr><td>Poof</td><td>Buys the ability to add a custom poof.</td><td>15</td></tr><tr><td>Custom</td><td>Buys a custom avatar to be applied to your name. (you supply)</td><td>20</td></tr><tr><td>Animated</td><td>Buys an animated avatar to be applied to your name. (you supply)</td><td>25</td></tr><tr><td>Trainer</td><td>Buys a trainer card which shows information through a command such as <i>/beforemath</i>.</td><td>30</td></tr><tr><td>Room</td><td>Buys a chatroom for you to own. (within reason, can be refused)</td><td>50</td></tr><tr><td>Voice</td><td>Buys a promotion to global voice.</td><td>100</td></tr><tr><td>Player</td><td>Buys a promotion to room player of any room you want.</td><td>250</td></tr></table></table><br/>To buy an item from the shop, use /buy <i>command</i>. <br/></center>');
 	},
 
 	buy: function(target, room, user) {
@@ -1357,13 +1357,22 @@ lockleague: 'closeleague',
 			return connection.sendTo(target, "|noinit|joinfailed|The room '" + target + "' could not be joined.");
 		}
 		if (target.toLowerCase() == "lobby") {
- 			return connection.sendTo('lobby','|html|<div class="infobox" style="border-color:blue"><center><b><u>Welcome to the Haywyre Server!' +
- 			'</u></b></center><br/><center><a href ="https://gist.github.com/E4Arsh/8577715"><b>This Server is hosted By BlakJack</b></a></center><br/><br/> ' +
- 			'&nbsp;&nbsp;&nbsp;Battle users in the ladder or in tournaments, learn how to play Pokemon or just chat in lobby! ' +
- 			'Make sure to type <b>/serverhelp</b> or <b>/help</b> to get a list of commands that you can use and <b>/faq</b> to check out frequently asked questions. ' +
- 			'<br/><br/>&nbsp;&nbsp;&nbsp;If you have any questions, issues or concerns should be directed at someone with a rank such as Voice (+), Driver (%), Moderator (@) and Leader (&). ' +
- 			'Only serious issues or questions should be directed to Administrators (~).</div>');
- 		}
+			return connection.sendTo('lobby','|html|<div class="broadcast-gold" border="5"><center><img src="http://i58.tinypic.com/2lj18o6.jpg"></center><br />' +
+                                        '<center><b><font size="4">Welcome to Universal Server!</b></font><br>' +       
+                                        'Here at our server we call home we have a community of our own. The community offers things like Sports, Casino, Pokemon Help, League, Tiers, and more. What makes this server special you say is what you make of it, Our guestv are the most important people for our server, without you guys it not really a server is it?<br>' +
+                                        'Well if you need any help, ask an Staff {Consider that their symbols show as an; Driver (%), Moderator (@), Leader (&), or an Admin (~)<br>' +
+                                        'If you need anything or need help with a different server, feel free to pm BeforeMath, Judgmental, Or Judge Joe Brownz.<br>' +
+                                        'We hope you have fun while you\'re here at the InterVersal Server! If so, then please be sure to tell your friends about us!<br>' +
+                                        '<hr width="85%">' +
+                                        '<center><a href="http://theinternationserver.weebly.com/"><button class="blackbutton" title="Site"><font color="red"><b>Site</b></a></button>   |   <a href="http://universityis.boards.net/"><button class="blackbutton" title="Forums"><font color="red"><b>Forums</b></a></button></div>');
+		}
+               if (target.toLowerCase() == "sports") {
+			return connection.sendTo('sports', '|html|<div class = "infobox"><center><img src="http://i.imgur.com/bUdvQbF.gif"><center><br />' +
+			'<center><b><u>Welcome to the Sports Room!</u></b></center><br />'+
+			'The place to discuss sports with like minded people and friends.  If you have any questions feel free to PM some of the staff (The people with the ~, &, #, @, and % next to their name) here on Universal!  Any spammers will not be tolerated here and will be promptly muted according to rules.  But most importantly, Have fun!'+ 			
+			'<center>Go UConn!</center><br /><br />' +
+			'</div>');
+		}
 	},
 
 	makechatroom: function(target, room, user) {
