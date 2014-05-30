@@ -1,91 +1,200 @@
-/*Header*/
-#header{
-	background:url("http://i.imgur.com/WHc11eO.jpg")
-}
-/*Main BG*/
-body {
-background-image:url('http://i.imgur.com/OJ9tGQg.jpg');
+body 	
+{
+background-image:url('http://i60.tinypic.com/10oo1lc.jpg');
 background-repeat:no-repeat;
 background-position:center fixed;
 }
-
-
-/*PM Box*/
-.pm-log {
-	min-height: 100px;
-	max-height: 300px;
-	background: url(http://i.imgur.com/nXHsL34.gif) center top scroll;
-	color: #ffffff;
-	word-wrap: break-word;
-	overflow: auto;
-	border: 0px solid #000000;
-	border-top-left-radius: 0px;
-	border-top-right-radius: 0px;
-}
-.pm-window h3 {
-    background: url(http://images2.layoutsparks.com/1/237102/miaka-dbl-bg-sky.gif);
-  	border: 2px;
-}
-.pm-window.focused h3, .pm-window.focused h3:hover {
-background: url(http://freedesignfile.com/upload/2012/09/sun-background-3.jpg);
-border: 2px;
-}
-.pm-log-add {
-        background: #a00;
-  		border: 2px;
-    	border-color: #000;
-}
-
-/*Chat*/
-.chat-log {
-    	font-size: 10pt;
-    	background: url("http://i.imgur.com/q1Pkcrk.png") repeat;
-    	opacity: 1;
-    	border-left: 1px solid rgb(95, 200, 255);
-    	overflow: auto;
-}
-
-
 .userbar{
 	border:1px solid #b6b6b6;
 	padding:5px;
 	background:#EBEBEB;
 	margin-top:-5px
 }
+.hangman{
+  background: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTON6LUby2djPvjHAIfjAQVNetioQun7ONw46LnS4MLIwH6ZYUi) center;
+  color: #eff;
+  }
+.header {
+	position: relative;
+	height: 56px;
+	background: url(https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcShV8CIDucBpTgeufSgM-7e6UI9NcFWWBt6HmiYxZavtlPx05l1);
+}
+.ps-room.ps-room-light {
+	background: url(http://www.propgallery.com/wp-content/gallery/background_1/bg-white.jpg);
+	color: black;
+}
+.tabbar {
+	position: absolute;
+	bottom: 1px;
+	left: 0;
+	right: 0;
 
+	display: block;
+	list-style: none;
+	margin: 0;
+	padding: 0 0 0 0;
+	height: 37px;
+	text-align: left;
+
+	color: white;
+	text-shadow: 0 1px 0 black;
+	font-size: 10pt;
+
+	line-height: 100%;
+}
+.maintabbarbottom {
+	content: "";
+	display: block;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: -6px;
+	height: 6px;
+	background: linear-gradient(to bottom, rgba(0,0,0,.6) 0%, rgba(0,0,0,0) 100%);
+	border: none;
+	border-left: 0;
+	margin: -1px 0 0 0;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+  	z-index:2;
+	box-shadow: none;
+}
+.tabbar a.button:hover{
+    background: #e7e8e9;
+    color: #0c1213
+    }
+.tabbar a.button span {
+	display: block;
+	overflow: hidden;
+}
+.tabbar.maintabbar {
+margin-left: 170px;
+margin-right: 0px;
+overflow: hidden;
+  height: 55px;
+  background-position: right;
+  background-repeat: no-repeat;
+}
+
+.tabbar a.button.cur, .tabbar a.button.cur:hover, .tabbar a.button{
+color: #ecf0f1;
+background: #333333;
+box-shadow: none;
+  border: none;
+cursor: default;
+top: 0px;
+  border-radius: 5px;
+text-shadow: none;
+  margin-left: 5px;
+  margin-top:15px;
+}
+.closebutton,
+.minimizebutton {
+	text-decoration: none;
+	font-size: 14px;
+	color: #FFFFFF;
+	text-shadow: none;
+	border: 0;
+	padding: 0;
+	margin: 0;
+  	top: 19px;
+	cursor: pointer;
+}
+.tabbar .closebutton, .tabbar a.cur+.closebutton {
+top: 19px;
+}
+.closebutton:hover {
+color: #a00;
+}
+.closebutton {
+color: #ecf0f1;
+}
+
+.userlist{
+	background: url(http://fc06.deviantart.net/fs71/i/2010/362/4/3/custom_box_bg_3_by_idislikethisbit-d35urz7.jpg);
+  	color: white;
+}
+
+.userlist li button:hover {
+background: black;
+}
+
+.userlist li{
+border-bottom: 1px solid #1b1b1b;
+}
+.pm-log {
+	min-height: 100px;
+	max-height: 300px;
+	background: url(http://www.echodeck.net/webflyer/images/cool_present_bg.gif);
+	color: #FFFFFF;
+	word-wrap: break-word;
+	border: 1px solid #AAAAAA;
+	border-top: 0;
+	border-bottom: 0;
+
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+	overflow-scrolling: touch;
+}
+.pm-window h3 {
+    background: url(https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTCdwY2n4xxqwvQxC2BLTmlfp07A_sj6g2i3wmBwwJ2B2bzeth4);
+  	border: 2px;
+}
+.pm-window.focused h3, .pm-window.focused h3:hover {
+background: url(https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTeg4InoIuA8bcY2DbOB2iHFDokCRjsqjz514OZZCftNMeSeDeMUg);
+border: 2px;
+}
+.pm-log-add{
+        background: #a00;
+  		border: 2px;
+    	border-color: #000;
+}
+.chat-log {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 40px;
+	font-size: 10pt;
+	background: url(http://i58.tinypic.com/34qmrt2.jpg)	no-repeat scroll right top;
+	color: black;
+	word-wrap: break-word;
+
+	overflow: auto;
+	overflow-x: hidden;
+	-webkit-overflow-scrolling: touch;
+	overflow-scrolling: touch;
+}
+.battle-log{
+  background: url(http://img0.etsystatic.com/039/1/8274094/il_340x270.505670076_jwtp.jpg);
+}
+.chat-log-add,
 /*"Look for a battle" buttons (when hovered over)*/
 .menugroup .button:hover {
    	background: #100;
-  	color: #eff
+  	color: #ff4b00
 }
 
 /*"Look for a battle" buttons*/
 .menugroup .button {
     	background: #eff;
-  		color: #100
+  		color: #ff9500
 }
-
-
-.userlist {
-  background: url(http://i.imgur.com/JZgrBq0.jpg);
-  color: #fff;
-  border: 1px solid;
+.ladder table, .ladder td, .ladder th {
+  	background: #dfdfdf;
+	border-collapse: collapse;
+	border: 2px solid #eff;
+  	font-weight: bold;
 }
-
-.tabbar a.button.cur,.tabbar a.button.cur:hover {
-	color: #e1e1e1;
-	text-shadow:none;
-  	border: 2px;
-	background: url(http://wallpoper.com/images/00/28/43/76/minimalistic-wall_00284376.jpg) center top;
-	cursor: default;
+.ladder td, .ladder th {
+	padding: 3px 5px;
+  	border: 2px solid #100;
+    font-weight: bold;
 }
-
-.tabbar a.button {
-	background:url(http://www.emauanakahula.org/black___white_gradient.jpg) center top;
-	color: #fff;
+.ladder th {
+	text-align: left;
+	font-size: 9pt;
+  	font-weight: bold;
+	background: #EEEEEE;
 }
-
-.char {
-  background: url(http://fc09.deviantart.net/fs71/f/2012/275/7/7/black_and_grey_stripe_pattern_by_wiizkiid-d5gm6uv.png) center;
-  color: #eff;
-  }
+}
