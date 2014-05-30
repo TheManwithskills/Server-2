@@ -8,7 +8,7 @@
 
 var trainerCards = {
 
-	beforemath: 'judgmental'
+	beforemath: 'judgmental',
 	judge: 'judgmental',
 	elitefourjudge: 'judgmental',
 	judgmental: function (target, room, user) {
