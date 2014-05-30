@@ -209,20 +209,20 @@ pm: 'msg',
 			}
 		}
 	},
-	leagueroom: function(target, room, user) {
+	interversalroom: function(target, room, user) {
 		if (!this.can('makeroom')) return;
 		if (!room.chatRoomData) {
-			return this.sendReply('/leagueroom - This room can\'t be marked as a league');
+			return this.sendReply('/internersalroom - This room can\'t be marked as a league');
 		}
 		if (target === 'off') {
-			delete room.isLeague;
+			delete room.isInterversal;
 			this.addModCommand(user.name+' has made this chat room a normal room.');
-			delete room.chatRoomData.isLeague;
+			delete room.chatRoomData.isInterversal;
 			Rooms.global.writeChatRoomData();
 		} else {
-			room.isLeague = true;
-			this.addModCommand(user.name+' made this room a league room.');
-			room.chatRoomData.isLeague = true;
+			room.isInterversal = true;
+			this.addModCommand(user.name+' made this room a InterVersal room.');
+			room.chatRoomData.isInterversal = true;
 			Rooms.global.writeChatRoomData();
 		}
 	},
