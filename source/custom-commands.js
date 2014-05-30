@@ -528,7 +528,7 @@ target.toLowerCase().replace(/ /g,'-');
 
 	shop: function(target, room, user) {
 		if (!this.canBroadcast()) return;
-		this.sendReplyBox('<center><h4><b><u>Haywyre Shop</u></b></h4><table border="1" cellspacing="0" cellpadding="3"><tr><th>Command</th><th>Description</th><th>Cost</th></tr><tr><td>Symbol</td><td>Buys a custom symbol to go infront of name and puts you at top of userlist. (temporary until restart)</td><td>5</td></tr><tr><td>Fix</td><td>Buys the ability to alter your current custom avatar or trainer card. (don\'t buy if you have neither)</td><td>10</td></tr><tr><td>Poof</td><td>Buys the ability to add a custom poof.</td><td>15</td></tr><tr><td>Custom</td><td>Buys a custom avatar to be applied to your name. (you supply)</td><td>20</td></tr><tr><td>Animated</td><td>Buys an animated avatar to be applied to your name. (you supply)</td><td>25</td></tr><tr><td>Trainer</td><td>Buys a trainer card which shows information through a command such as <i>/blakjack</i>.</td><td>30</td></tr><tr><td>Room</td><td>Buys a chatroom for you to own. (within reason, can be refused)</td><td>50</td></tr><tr><td>Voice</td><td>Buys a promotion to global voice.</td><td>100</td></tr><tr><td>Player</td><td>Buys a promotion to room player of any room you want.</td><td>250</td></tr></table></table><br/>To buy an item from the shop, use /buy <i>command</i>. <br/></center>');
+		this.sendReplyBox('<center><h4><b><u>The InterVersal Shop</u></b></h4><table border="1" cellspacing="0" cellpadding="3"><tr><th>Items</th><th>Description</th><th>Cost</th></tr><tr><td>Symbol</td><td>Buys a custom symbol to go infront of name and puts you at top of userlist. (temporary until restart)</td><td>5</td></tr><tr><td>Fix</td><td>Buys the ability to alter your current custom avatar or trainer card. (don\'t buy if you have neither)</td><td>10</td></tr><tr><td>Poof</td><td>Buys the ability to add a custom poof.</td><td>15</td></tr><tr><td>Custom</td><td>Buys a custom avatar to be applied to your name. (you supply)</td><td>20</td></tr><tr><td>Animated</td><td>Buys an animated avatar to be applied to your name. (you supply)</td><td>25</td></tr><tr><td>Trainer</td><td>Buys a trainer card which shows information through a command such as <i>/blakjack</i>.</td><td>30</td></tr><tr><td>Room</td><td>Buys a chatroom for you to own. (within reason, can be refused)</td><td>50</td></tr><tr><td>Voice</td><td>Buys a promotion to global voice.</td><td>100</td></tr><tr><td>Player</td><td>Buys a promotion to room player of any room you want.</td><td>250</td></tr></table></table><br/>To buy an item from the shop, use /buy <i>command</i>. <br/></center>');
 	},
 
 	buy: function(target, room, user) {
@@ -623,7 +623,7 @@ target.toLowerCase().replace(/ /g,'-');
 			}
 		}
 		if (target === 'room') {
-			price = 50;
+			price = 120;
 			if (price <= user.money) {
 				user.money = user.money - price;
 				this.sendReply('You have purchased a room. Private Message an admin to make the room.');
@@ -634,7 +634,7 @@ target.toLowerCase().replace(/ /g,'-');
 			}
 		}
 		if (target === 'voice') {
-			price = 100;
+			price = 150;
 			if (price <= user.money) {
 				user.money = user.money - price;
 				this.sendReply('You have purchased a promotion to global voice. Private Message an admin to promote you.');
@@ -714,6 +714,631 @@ target.toLowerCase().replace(/ /g,'-');
 
 	dq: function(target, room, user) {
 		return this.parse('/tour dq' + target);
+	},
+	/*********************************************************
+	 * Judge's Custom Commands
+	 *********************************************************/
+	 friends: function(target, room, user, connection) {
+		var data = fs.readFileSync('config/friends.csv','utf8')
+			var match = false;
+			var friends = '';
+			var row = (''+data).split("\n");
+			for (var i = 0; i < row.length; i++) {
+				if (!row[i]) continue;
+				var parts = row[i].split(",");
+				var userid = toId(parts[0]);
+				if (user.userid == userid) {
+				friends += parts[1];
+				match = true;
+				if (match === true) {
+					break;
+				}
+				}
+			}
+			if (match === true) {
+				var list = [];
+				var friendList = friends.split(' ');
+				for (var i = 0; i < friendList.length; i++) {
+					if(Users.get(friendList[i])) {
+						if(Users.get(friendList[i]).connected) {
+							list.push(friendList[i]);
+						}
+					}
+				}
+				if (list[0] === undefined) {
+					return this.sendReply('You have no online friends.');
+				}
+				var buttons = '';
+				for (var i = 0; i < list.length; i++) {
+					buttons = buttons + '<button name = "openUser" value = "' + Users.get(list[i]).userid + '">' + Users.get(list[i]).name + '</button>';
+				}
+				this.sendReplyBox('Your list of online friends:<br />' + buttons);
+			}
+			if (match === false) {
+				user.send('You have no friends to show.');
+			}
+		},
+
+	addfriend: function(target, room, user, connection) {
+		if(!target) return this.parse('/help addfriend');
+		target = this.splitTarget(target);
+		var targetUser = this.targetUser;
+		if (!targetUser) {
+			return this.sendReply('User '+this.targetUsername+' not found.');
+		}
+		if (targetUser.userid === user.userid) {
+			return this.sendReply('Are you really trying to friend yourself?');
+		}
+		var data = fs.readFileSync('config/friends.csv','utf8')
+		var match = false;
+		var line = '';
+		var row = (''+data).split("\n");
+		for (var i = row.length; i > -1; i--) {
+			if (!row[i]) continue;
+			var parts = row[i].split(",");
+			var userid = toId(parts[0]);
+			if (user.userid == userid) {
+				match = true;
+			}
+			if (match === true) {
+				line = line + row[i];
+				var individuals = parts[1].split(" ");
+				for (var i = 0; i < individuals.length; i++) {
+					if (individuals[i] === targetUser.userid) {
+						return connection.send('This user is already in your friends list.');
+					}
+				}
+				break;
+			}
+		}
+		if (match === true) {
+			var re = new RegExp(line,"g");
+			fs.readFile('config/friends.csv', 'utf8', function (err,data) {
+			if (err) {
+				return console.log(err);
+			}
+			var result = data.replace(re, line +' '+targetUser.userid);
+			fs.writeFile('config/friends.csv', result, 'utf8', function (err) {
+				if (err) return console.log(err);
+			});
+			});
+		} else {
+			var log = fs.createWriteStream('config/friends.csv', {'flags': 'a'});
+			log.write("\n"+user.userid+','+targetUser.userid);
+		}
+		this.sendReply(targetUser.name + ' was added to your friends list.');
+		targetUser.send(user.name + ' has added you to their friends list.');
+	},
+
+	removefriend: function(target, room, user, connection) {
+		if(!target) return this.parse('/help removefriend');
+		var noCaps = target.toLowerCase();
+		var idFormat = toId(target);
+		var data = fs.readFileSync('config/friends.csv','utf8')
+		var match = false;
+		var line = '';
+		var row = (''+data).split("\n");
+		for (var i = row.length; i > -1; i--) {
+			if (!row[i]) continue;
+			var parts = row[i].split(",");
+			var userid = toId(parts[0]);
+			if (user.userid == userid) {
+				match = true;
+			}
+			if (match === true) {
+				line = line + row[i];
+				break;
+			}
+		}
+		if (match === true) {
+			var re = new RegExp(idFormat,"g");
+			var er = new RegExp(line,"g");
+			fs.readFile('config/friends.csv', 'utf8', function (err,data) {
+			if (err) {
+				return console.log(err);
+			}
+			var result = line.replace(re, '');
+			var replace = data.replace(er, result);
+			fs.writeFile('config/friends.csv', replace, 'utf8', function (err) {
+				if (err) return console.log(err);
+			});
+			});
+		} else {
+			return this.sendReply('This user doesn\'t appear to be in your friends. Make sure you spelled their username right.');
+		}
+		this.sendReply(idFormat + ' was removed from your friends list.');
+		if(Users.get(target).connected) {
+			Users.get(target).send(user.name + ' has removed you from their friends list.');
+		}
+	},
+	
+	rk: 'roomkick',
+	rkick: 'roomkick',
+	kick: 'roomkick',
+	roomkick: function(target, room, user){
+		if (!room.auth && room.id !== "staff") return this.sendReply('/rkick is designed for rooms with their own auth.');
+		if (!this.can('roommod', null, room)) return false;
+		if (!target) return this.sendReply('/rkick [username] - kicks the user from the room. Requires: @ & ~');
+		var targetUser = Users.get(target);
+		if (!targetUser) return this.sendReply('User '+target+' not found.');
+		if (!Rooms.rooms[room.id].users[targetUser.userid]) return this.sendReply(target+' is not in this room.');
+		if (targetUser.frostDev) return this.sendReply('Frost Developers can\'t be room kicked');
+		targetUser.popup('You have been kicked from room '+ room.title +' by '+user.name+'.');
+		targetUser.leaveRoom(room);
+		room.add('|raw|'+ targetUser.name + ' has been kicked from room by '+ user.name + '.');
+		this.logRoomCommand(targetUser.name + ' has been kicked from room by '+ user.name + '.', room.id);
+	},
+	flogout: 'forcelogout',
+        forcelogout: function(target, room, user) {
+                if(!user.can('hotpatch')) return;
+                if (!this.canTalk()) return false;
+        
+                if (!target) return this.sendReply('/forcelogout [username], [reason] OR /flogout [username], [reason] - You do not have to add a reason');
+
+                target = this.splitTarget(target);
+                var targetUser = this.targetUser;
+
+                if (!targetUser) {
+                        return this.sendReply('User '+this.targetUsername+' not found.');
+                }
+
+                if (targetUser.can('hotpatch')) return this.sendReply('You cannot force logout another Admin.');
+
+                this.addModCommand(''+targetUser.name+' was forcibly logged out by '+user.name+'.' + (target ? " (" + target + ")" : ""));
+                
+                this.logModCommand(user.name+' forcibly logged out '+targetUser.name);
+                
+                targetUser.resetName();
+        },
+        
+        roomlist: function(target, room, user, connection) {
+                if (!user.can('makeroom')) return false;
+                        for (var u in Rooms.rooms) {
+                                if (Rooms.rooms[u].type === "chat") {
+                                        if (!Rooms.rooms[u].active && !Rooms.rooms[u].isPrivate) {
+                                                connection.sendTo(room.id, '|raw|INACTIVE: <font color=red><b>'+u+'</b></font>');
+                                        }
+                                        if (Rooms.rooms[u].isPrivate && Rooms.rooms[u].active) {
+                                                connection.sendTo(room.id, '|raw|PRIVATE: <b>'+u+'</b>');
+                                        }
+                                        if (!Rooms.rooms[u].active && Rooms.rooms[u].isPrivate) {
+                                                connection.sendTo(room.id, '|raw|INACTIVE and PRIVATE: <font color=red><b>'+u+'</font></b>');
+                                        }
+                                        if (Rooms.rooms[u].active && !Rooms.rooms[u].isPrivate) {
+                                                connection.sendTo(room.id, '|raw|<font color=green>'+u+'</font>');
+                                        }
+                                }
+                        }
+                },
+                
+                tierpoll: 'tiervote',
+	tiervote: function(target, room, user){
+		return this.parse('/poll Tournament Tier?, randombattle, cc1v1, 1v1, gen51v1, uu, gen5uu, nu, ru, lc, gen5lc, cap, ou, gen5ou, ou monotype, gen5mono, balanced hackmons, hackmons, ubers, doubles, gen5doubles, challenge cup, perseverance, seasonal, inverse');
+	},
+	
+	givebadge: function(target, room, user) {
+	if (!this.can('mute', null, room)) return false;
+				if (room.id !== 'theuniversalleague') return this.sendReply('You can only use badges in the Official league room.');
+	 	if (!user.can('warn') && user.userid != 'championjudge' && user.userid != 'frontierscrafty' && user.userid != 'jackthelugia' && user.userid != 'almightykira' && user.userid != 'Dr.Exeto' && user.userid != 'RedNinjaBoy' && user.userid != 'theswarmlord' && user.userid != 'DeoxysHugger' && user.userid != 'Sweeney Todd' && user.userid != 'Kai' && user.userid != 'jason588' && user.userid != 'GLAlex10code' && user.userid != 'notsticky6' && user.userid != 'RunJollyGarchomp' && user.userid != 'sr334' && user.userid != 'greninja1' && user.userid != '13490ufd' && user.userid != 'ryhesss2213') return false;
+	 	if (!target) return this.sendReply('Usage: /givebadge [username], [type]');
+	 	targetSplit = target.split(',');
+	 	if (!targetSplit[0] || !targetSplit[1]) return this.sendReply('Usage: /givebadge [username], [type]');
+	 	targetUser = Users.get(targetSplit[0]);
+	 	type = targetSplit[1];
+	 	type = type.trim();
+	 	typechart = 'bug,dark,dragon,electric,fairy,fighting,fire,flying,ghost,grass,ground,ice,normal,poison,psychic,rock,steel,water,kawaii,flame,attempt,wrestler';
+	 	if (typechart.indexOf(type.toLowerCase()) < 0) return this.sendReply('Invalid type. Please use one of the following types: '+typechart+'.');
+	 	if (!targetUser) return this.sendReply('User '+targetSplit[0]+' not found.');
+	 	self = this;
+		fs.readFile('config/badges.txt','utf8',function(err, data) {
+			if (err) data = '';
+			match = false;
+			badges = '';
+			var row = (''+data).split("\n");
+			var line = '';
+			count = 0;
+			for (var i = row.length; i > -1; i--) {
+				if (!row[i]) continue;
+				var parts = row[i].split(",");
+				if (targetUser.userid == parts[0]) {
+					match = true;
+					line = line + row[i];
+					for (var x in parts) {
+						count++;
+						if (parts[x] != targetUser.userid) {
+							if (count != parts.length) badges = badges + parts[x] + ',';
+							if (count == parts.length) badges = badges + parts[x];
+						}
+					}
+					break;
+				}
+			}
+			if (badges.indexOf(type.toLowerCase()) >= 0) return self.sendReplyBox(targetUser.name+' already has a badge for that type!');
+			if (match === true) {
+				var re = new RegExp(line,"g");
+				var result = data.replace(re, targetUser.userid+','+type.toLowerCase()+','+badges);
+				fs.writeFile('config/badges.txt', result, 'utf8', function (err) {
+					if (err) return console.log(err);
+					self.sendReply(targetUser.name+' has received the '+type+' badge.');
+				});
+			} else {
+				fs.appendFile('config/badges.txt','\n'+targetUser.userid+','+type.toLowerCase()+','+badges);
+				self.sendReply(targetUser.name+' has received the '+type+' badge.');
+			}
+		});
+	 if (closeLeague) return this.sendReply('|raw|<center><h3><b>The league is currently closed and will open shortly.</b></h3></center>');
+	},
+
+	 removebadge: 'takebadge',
+	 takebadge: function(target, room, user) {
+	 if (!this.can('mute', null, room)) return false;
+				if (room.id !== 'theuniversalleague') return this.sendReply('You can only use badges in the Official league room.');
+	 	if (!user.can('warn') && user.userid != 'championjudge' && user.userid != 'thaumicscrafty' ) return false;
+	 	if (!target) return this.sendReply('Usage: /takebadge [username], [type]');
+	 	targetSplit = target.split(',');
+	 	if (!targetSplit[0] || !targetSplit[1]) return this.sendReply('Usage: /takebadge [username], [type]');
+	 	targetUser = Users.get(targetSplit[0]);
+	 	type = targetSplit[1];
+	 	type = type.trim();
+	 	typechart = 'bug,dark,dragon,electric,fairy,fighting,fire,flying,ghost,grass,ground,ice,normal,poison,psychic,rock,steel,water,kawaii,flame,attempt,wrestler';
+	 	if (typechart.indexOf(type.toLowerCase()) < 0) return this.sendReply('Invalid type. Please use one of the following types: '+typechart+'.');
+	 	if (!targetUser) return this.sendReply('User '+targetSplit[0]+' not found.');
+	 	self = this;
+		fs.readFile('config/badges.txt','utf8',function(err, data) {
+			if (err) data = '';
+			match = false;
+			badges = '';
+			var row = (''+data).split("\n");
+			var line = '';
+			count = 0;
+			for (var i = row.length; i > -1; i--) {
+				if (!row[i]) continue;
+				var parts = row[i].split(",");
+				if (targetUser.userid == parts[0]) {
+					match = true;
+					line = line + row[i];
+					for (var x in parts) {
+						count++;
+						if (parts[x] != targetUser.userid) {
+							if (count != parts.length) badges = badges + parts[x] + ',';
+							if (count == parts.length) badges = badges + parts[x];
+						}
+					}
+					break;
+				}
+			}
+			if (badges.indexOf(type.toLowerCase()) < 0) return self.sendReply(targetUser.name+' doesn\'t have a '+type+' badge.');
+			if (match === true) {
+				var re = new RegExp(line,"g");
+				var re2 = new RegExp(type.toLowerCase()+',');
+				badges = badges.replace(re2, "");
+				var result = data.replace(re, targetUser.userid+','+badges);
+				fs.writeFile('config/badges.txt', result, 'utf8', function (err) {
+					if (err) return console.log(err);
+					self.sendReply(targetUser.name+' has lost their '+type+' badge.');
+				});
+			}
+		});
+	 if (closeLeague) return this.sendReply('|raw|<center><h3><b>The league is currently closed and will open shortly.</b></h3></center>');
+	},
+
+	 badge: 'viewbadges',
+	 badges: 'viewbadges',
+	 showbadges: 'viewbadges',
+	 showbadge: 'viewbadges',
+	 viewbadge: 'viewbadges',
+	 vb: 'viewbadges',
+	 viewbadges: function(target, room, user) {
+	 if (!this.can('mute', null, room)) return false;
+	 	if (!this.canBroadcast()) return;
+		if (room.id !== 'theuniversalleague') return this.sendReply('You can only use badges in the Official league room.');
+	 	if (!target) {
+	 		userid = user.userid;
+	 		username = sanitize(user.name);
+	 	} else {
+	 		userid = toId(target);
+	 		username = sanitize(target);
+	 	}
+	 	self = this;
+	 	fs.readFile('config/badges.txt','utf8',function(err, data) {
+	 		if (err) {
+	 			self.sendReplyBox(username+' has no badges.');
+	 			room.update();
+	 			return true;
+	 		}
+	 		line = data.split('\n');
+	 		badges = '';
+	 		for (var u in line) {
+	 			row = line[u].split(',');
+	 			if (row[0] != userid) continue;
+	 			for (var x in row) {
+	 				if (row[x] != userid) {
+	 					badges = badges + row[x] + ',';
+	 				}
+	 			}
+	 		}
+	 		glbadge = '';
+	 		e4badge = '';
+	 		if (badges.indexOf('dark') >= 0) glbadge = glbadge + '<img title="Dark" src="http://i1305.photobucket.com/albums/s542/TheBattleTowerPS/044_zps7894afc4.png"/>';
+	 		if (badges.indexOf('dragon') >= 0) glbadge = glbadge + '<img title="Dragon" src="http://i1305.photobucket.com/albums/s542/TheBattleTowerPS/142_zpsea0762e7.png"/>';
+	 		if (badges.indexOf('electric') >= 0) glbadge = glbadge + '<img title="Electric" src="http://i1305.photobucket.com/albums/s542/TheBattleTowerPS/019_zps1c48a4cf.png"/>';
+	 		if (badges.indexOf('normal') >= 0) glbadge = glbadge + '<img title="Normal" src="http://i1305.photobucket.com/albums/s542/TheBattleTowerPS/091_zpsf2934626.png"/>';
+	 		if (badges.indexOf('rock') >= 0) glbadge = glbadge + '<img title="Rock" src="http://i1305.photobucket.com/albums/s542/TheBattleTowerPS/097_zpsad64274a.png"/>';
+	 		if (badges.indexOf('fire') >= 0) glbadge = glbadge + '<img title="Fire" src="http://i1305.photobucket.com/albums/s542/TheBattleTowerPS/062_zpsa4a9ad16.png"/>';
+	 		if (badges.indexOf('steel') >= 0) glbadge = glbadge + '<img title="Steel" src="http://i1305.photobucket.com/albums/s542/TheBattleTowerPS/131_zpsc82e5e53.png"/>';
+	 		if (badges.indexOf('grass') >= 0) glbadge = glbadge + '<img title="Grass" src="http://i1305.photobucket.com/albums/s542/TheBattleTowerPS/002_zpsf02c0411.png"/>';
+	 		if (badges.indexOf('bug') >= 0) glbadge = glbadge + '<img title="Bug" src="http://i1305.photobucket.com/albums/s542/TheBattleTowerPS/061_zps01c1d2a3.png"/>';
+	 		if (badges.indexOf('psychic') >= 0) glbadge = glbadge + '<img title="Psychic" src="http://i1305.photobucket.com/albums/s542/TheBattleTowerPS/091_zpsc55ac97a.png"/>';
+	 		if (badges.indexOf('fairy') >= 0) glbadge = glbadge + '<img title="Fairy" src="http://i1305.photobucket.com/albums/s542/TheBattleTowerPS/033_zps778a8f48.png"/>';
+	 		if (badges.indexOf('water') >= 0) glbadge = glbadge + '<img title="Water" src="http://i1305.photobucket.com/albums/s542/TheBattleTowerPS/094_zps41b18534.png"/>';
+	 		if (badges.indexOf('ghost') >= 0) glbadge = glbadge + '<img title="Ghost" src="http://i1305.photobucket.com/albums/s542/TheBattleTowerPS/094_zps992c377f.png"/>';
+	 		if (badges.indexOf('flying') >= 0) glbadge = glbadge + '<img title="Flying" src="http://i.picresize.com/images/2014/03/16/7gG9.png"/>';
+	 		if (badges.indexOf('ground') >= 0) glbadge = glbadge + '<img title="Ground" src="http://i1305.photobucket.com/albums/s542/TheBattleTowerPS/003_zps7b109aa5.png"/>';
+	 		if (badges.indexOf('fighting') >= 0) glbadge = glbadge + '<img title="Fighting" src="http://i1305.photobucket.com/albums/s542/TheBattleTowerPS/146_zps098d23fa.png"/>';
+	 		if (badges.indexOf('poison') >= 0) glbadge = glbadge + '<img title="Poison" src="http://i1305.photobucket.com/albums/s542/TheBattleTowerPS/018_zps7add8bf3.png"/>';
+	 		if (badges.indexOf('kawaii') >= 0) e4badge = e4badge + '<img title="Elite Four Kawaii Natsu (Flying)" src="http://i.picresize.com/images/2014/05/18/ZArtW.png"/>';
+	 		if (badges.indexOf('flame') >= 0) e4badge = e4badge + '<img title="Elite Four Flame (Fire)" src="http://i.picresize.com/images/2014/05/18/81wmV.png"/>';
+	 		if (badges.indexOf('attempt') >= 0) e4badge = e4badge + '<img title="Elite Four Attempt (Steel)" src="http://i.picresize.com/images/2014/05/18/s7aTl.png"/>';
+	 		if (badges.indexOf('wrestler') >= 0) e4badge = e4badge + '<img title="Elite Four Wrestler (Poison)" src="http://i.picresize.com/images/2014/05/18/MULKs.png"/>';
+	 		if (glbadge == '' && e4badge == '') return self.sendReplyBox(username+' has no badges.');
+	 		self.sendReplyBox('<center>'+username+'\'s badges <br /><br />Gym Leader Badges:<br />'+glbadge+'<br />Elite Four Badges: <br />'+e4badge+'</center>');
+	 		room.update();
+	 	});
+	 if (closeLeague) return this.sendReply('|raw|<center><h3><b>The league is currently closed and will open shortly.</b></h3></center>');
+	},
+
+registerleagueul: 'rlul',
+	rlul: function(target, room, user) {
+	if (room.id !== 'theuniversalleague') return this.sendReply('You can only use this command in the Universal League.');
+		var leagues = fs.readFileSync('config/league.txt','utf8');
+		if (leagues.indexOf(user.name) > -1) {
+			return this.sendReply("You are already registered for the Universal League.");
+		}
+		if (!target) {
+			return this.sendReply('/rlul [Pokemon 1,2,3,4,5,6] - Register for the Universal League.');
+		}
+		target = target.toLowerCase();
+		target = target.split(',');
+		if (target.length < 6) {
+			return this.sendReply('/rlul [Pokemon 1,2,3,4,5,6] - Register for the Universal League.');
+		}
+		var pokemonNames = [];
+		for (var i = 0; i < target.length; i++) {
+			var pokemon = toId(target[i]);
+			pokemon = Tools.dataSearch(pokemon)[0];
+			if (!pokemon || pokemon.searchType != 'pokemon') {
+				return this.sendReply('At least one of these is not a Pokemon: '+target[i]);
+			}
+			var template = Tools.getTemplate(pokemon.species);
+			if (template.tier === 'Uber') {
+				return this.sendReply('Your team includes an Uber, which is not allowed in the Universal League. ');
+			}
+			pokemonNames.push(pokemon.species);
+		}
+		league.write('\n'+user.name+'\'s team: '+pokemonNames.join(', '));
+		this.sendReply('Your team of '+pokemonNames.join(', ')+' has been submitted successfully. You may now challenge Gym Leaders.');
+		return this.parse('/ulgt');
+		if (closeLeague) return this.sendReply('|raw|<center><h3><b>The league is currently closed and will open shortly.</b></h3></center>');
+	},
+	
+	league: 'leagueintro',
+	leagueintro: function(target, room, user) {
+		if (!this.canBroadcast()) return;
+		if (room.id !== 'theuniversalleague') return this.sendReply('You can only use this command in the Universal League.');
+		this.sendReplyBox('Welcome to the Universal League! To challenge the Champion Judge, you must win 8 badges and beat the Elite 4. <br>View the list of Gym Leaders using /ulgl. Good luck!');
+		if (closeLeague) return this.sendReply('|raw|<center><h3><b>The league is currently closed and will open shortly.</b></h3></center>');
+	},
+	
+	ulgymtrainers: 'ultrainers',
+	ulgt: 'ultrainers',
+	ultrainers: function(target, room, user) {
+		if(!this.canBroadcast()) return;
+		if (room.id !== 'theuniversalleague') return this.sendReply('You can only use this command in the Universal League.');
+		this.sendReplyBox('<b>Universal\'s Gym Trainers:</b> <br />' +
+			'<b><font color=#909060>Normal:</b> </font>Not Taken!</font><br />' +
+			'<b><font color=#e16c17>Fire:</b> </font>Not Taken!</font><br />' +
+			'<b><font color=#4475ec>Water:</b> </font>Not Taken!<br />' +
+			'<b><font color=#f2c411>Electric:</b> </font>Not Taken!</font><br />' +
+			'<b><font color=#5eab37>Grass:</b> </font>Not Taken!<br />' +
+			'<b><font color=#00faff>Ice:</b> </font>Not Taken!<br />' +
+			'<b><font color=#a72a23>Fighting:</b> </font>Taken!<br />' +	
+			'<b><font color=#843484>Poison:</b> </font>Not Taken!<br />' +
+			'<b><font color=#d6ac37>Ground:</b> </font>Not Taken!<br />' +
+			'<b><font color=#9683cd>Flying:</b> </font>Not Taken!<br />' +
+			'<b><font color=#f62463>Psychic:</b> </font>Not Taken!<br />' +
+			'<b><font color=#95a31d>Bug:</b> </font>Not Taken!<br />' +	
+			'<b><font color=#9d8930>Rock:</b> </font>Not Taken!</font><br />' +
+			'<b><font color=#5a477b>Ghost:</b> </font>Not Taken!<br />' +
+			'<b><font color=#5210f0>Dragon:</b> </font>Not Taken!<br />' +
+			'<b><font color=#594539>Dark:</b> </font>Not Taken!<br />' +
+			'<b><font color=#a3a3c2>Steel:</b> </font>Not Taken!</font><br />' +					
+			'<b><font color=#e079e0>Fairy:</b> </font>Not Taken!<br />');
+			if (closeLeague) return this.sendReply('|raw|<center><h3><b>The league is currently closed and will open shortly.</b></h3></center>');
+	},
+
+	ulgymleaders: 'ulleaders',
+	ulgl: 'ulleaders',
+	ulleaders: function(target, room, user) {
+		if(!this.canBroadcast()) return;
+		if (room.id !== 'theuniversalleague') return this.sendReply('You can only use this command in the Universal League.');
+		this.sendReplyBox('<b>Universal\'s Gym Leaders:</b> <br />' +
+			'<b><font color=#909060>Normal:</b> </font>Kai</font><br />' +
+			'<b><font color=#e16c17>Fire:</b> </font>Dr.Exeto</font><br />' +
+			'<b><font color=#4475ec>Water:</b> </font>RedNinjaBoy<br />' +
+			'<b><font color=#f2c411>Electric:</b> </font>Jack the lugia</font><br />' +
+			'<b><font color=#5eab37>Grass:</b> </font>The Swarmlord<br />' +
+			'<b><font color=#00faff>Ice:</b> </font>DeoxysHugger<br />' +
+			'<b><font color=#a72a23>Fighting:</b> </font>ryhesss2213<br />' +	
+			'<b><font color=#843484>Poison:</b> </font>greninja1<br />' +
+			'<b><font color=#d6ac37>Ground:</b> </font>Almighty Kira<br />' +
+			'<b><font color=#9683cd>Flying:</b> </font>13490ufd<br />' +
+			'<b><font color=#f62463>Psychic:</b> </font>notsticky6<br />' +
+			'<b><font color=#95a31d>Bug:</b> </font>Sweeney Todd<br />' +	
+			'<b><font color=#9d8930>Rock:</b> </font>Crowborn</font><br />' +
+			'<b><font color=#5a477b>Ghost:</b> </font>sr334<br />' +
+			'<b><font color=#5210f0>Dragon:</b> </font>RunJollyGarchomp<br />' +
+			'<b><font color=#594539>Dark:</b> </font>Tsubasa<br />' +
+			'<b><font color=#a3a3c2>Steel:</b> </font>Jason588</font><br />' +					
+			'<b><font color=#e079e0>Fairy:</b> </font>GL Alex10code<br />');
+			if (closeLeague) return this.sendReply('|raw|<center><h3><b>The league is currently closed and will open shortly.</b></h3></center>');
+	},
+
+	ulelitefour: 'ule4',
+	ule4: function(target, room, user) {
+		if (!this.canBroadcast()) return;
+		if (room.id !== 'theuniversalleague') return this.sendReply('You can only use this command in the Universal League.');
+		this.sendReplyBox('<b>Univeral\'s Elite Four:</b> <br />' +
+			'<b><font color=#45dbf7>Flying:</b> </font>Kawaii Natsu<br />' +
+			'<b><font color=#d7282c>Fire:</b> </font>Flame<br />' +
+			'<b><font color=#a9aeb2>Steel:</b> </font>Attempt999<br />' +
+			'<b><font color=#b300ff>Poison:</b> </font>wrestler720<br />');
+		if (closeLeague) return this.sendReply('|raw|<center><h3><b>The league is currently closed and will open shortly.</b></h3></center>');
+	},
+	
+	
+	ulfrontierace: 'ulfrontier',
+	ulfrontier: function(target, room, user) {
+		if (!this.canBroadcast()) return;
+		if (room.id !== 'theuniversalleague') return this.sendReply('You can only use this command in the Universal League.');
+		this.sendReplyBox('<b>Univeral\'s Frontier Ace:</b> <br />' +
+			'<b><font color=#fd7f35>Random Battle:</b> </font>I D0NT CARE<br />' +
+			'<b><font color=#db1a23>Not Taken:</b> </font>available<br />' +
+			'<b><font color=#db1a23>Not Taken:</b> </font>available<br />' +
+			'<b><font color=#db1a23>Not Taken:</b> </font>available<br />');
+		if (closeLeague) return this.sendReply('|raw|<center><h3><b>The league is currently closed and will open shortly.</b></h3></center>');
+	},
+	
+	ulowner: 'ullead',
+	ullead: function(target, room, user) {
+		if (!this.canBroadcast()) return;
+		if (room.id !== 'theuniversalleague') return this.sendReply('You can only use this command in the Universal League.');
+		this.sendReplyBox('<b>Univeral\'s Owners:</b> <br />' +
+			'<b><font color=#206eb1>☬Champion☬:</b> </font> Judge<br />' +
+			'<b><font color=#dcdc28>★Frontier★:</b> </font> Scrafty<br />');
+		if (closeLeague) return this.sendReply('|raw|<center><h3><b>The league is currently closed and will open shortly.</b></h3></center>');
+	},
+	
+lockleague: 'closeleague',
+	closeleague: function(target, room, user) {
+		if (!user.can('hotpatch')) return this.sendReply('You do not have enough authority to do this.');
+
+		if(closeLeague && closedLeague === 1) closedLeague--;
+
+		if (closeLeague) {
+			return this.sendReply('The League is already closed. Use /openleague to open the league to buyers.');
+		}
+		else if (!closeLeague) {
+			if (closedLeague === 0) {
+				this.sendReply('Are you sure you want to close the League? People will not be able to test there skills. If you do, use the command again.');
+				closedLeague++;
+			}
+			else if (closedLeague === 1) {
+				closeLeague = true;
+				closedLeague--;
+				this.add('|raw|<center><h4><b>The league has been temporarily closed, during this time you wont be able to register your team, view the gym leaders or challenge the league.</b></h4></center>');
+			}
+		}
+	},
+	
+	openleague: function(target, room, user) {
+		if (!user.can('hotpatch')) return this.sendReply('You do not have enough authority to do this.');
+
+		if (!closeLeague && closedLeague === 1) closedLeague--;
+
+		if (!closeLeague) {
+			return this.sendRepy('The league is already closed. Use /closeleague to close the league to challengers.');
+		}
+		else if (closeLeague) {
+			if (closedLeague === 0) {
+				this.sendReply('Are you sure you want to open the league? People will be able to test their skill\'s again. If you do, use the command again.');
+				closedLeague++;
+			}
+			else if (closedLeague === 1) {
+				closeLeague = false;
+				closedLeague--;
+				this.add('|raw|<center><h4><b>The league has been opened, you can now test your skill\'s at the Universal League.</b></h4></center>');
+			}
+		}
+	},
+	roomauth: function(target, room, user, connection) {
+		if (!room.auth) return this.sendReply("/roomauth - This room isn't designed for per-room moderation and therefore has no auth list.");
+		var buffer = [];
+		var owners = [];
+		var admins = [];
+		var leaders = [];
+		var mods = [];
+		var drivers = [];
+		var voices = [];
+
+		room.owners = ''; room.admins = ''; room.leaders = ''; room.mods = ''; room.drivers = ''; room.voices = ''; 
+		for (var u in room.auth) { 
+			if (room.auth[u] == '#') { 
+				room.owners = room.owners +u+',';
+			} 
+			if (room.auth[u] == '~') { 
+				room.admins = room.admins +u+',';
+			} 
+			if (room.auth[u] == '&') { 
+				room.leaders = room.leaders +u+',';
+			}
+			if (room.auth[u] == '@') { 
+				room.mods = room.mods +u+',';
+			} 
+			if (room.auth[u] == '%') { 
+				room.drivers = room.drivers +u+',';
+			} 
+			if (room.auth[u] == '+') { 
+				room.voices = room.voices +u+',';
+			} 
+		}
+
+		if (!room.manager) manager = '';
+		if (room.manager) manager = room.manager;
+
+		room.owners = room.owners.split(',');
+		room.admins = room.admins.split(',');
+		room.leaders = room.leaders.split(',');
+		room.mods = room.mods.split(',');
+		room.drivers = room.drivers.split(',');
+		room.voices = room.voices.split(',');
+
+		for (var u in room.owners) {
+			if (room.owners[u] != '') owners.push(room.owners[u]);
+		}
+		for (var u in room.admins) {
+			if (room.admins[u] != '') admins.push(room.admins[u]);
+		}
+		for (var u in room.leaders) {
+			if (room.leaders[u] != '') leaders.push(room.leaders[u]);
+		}
+		for (var u in room.mods) {
+			if (room.mods[u] != '') mods.push(room.mods[u]);
+		}
+		for (var u in room.drivers) {
+			if (room.drivers[u] != '') drivers.push(room.drivers[u]);
+		}
+		for (var u in room.voices) {
+			if (room.voices[u] != '') voices.push(room.voices[u]);
+		}
+		if (owners.length > 0) {
+			owners = owners.join(', ');
+		} 
+		if (admins.length > 0) {
+			admins = admins.join(', ');
+		}
+		if (leaders.length > 0) {
+			leaders = leaders.join(', ');
+		}
+		if (mods.length > 0) {
+			mods = mods.join(', ');
+		}
+		if (drivers.length > 0) {
+			drivers = drivers.join(', ');
+		}
+		if (voices.length > 0) {
+			voices = voices.join(', ');
+		}
+		connection.popup('Manager: \n'+manager+'\nOwners: \n'+owners+'\nAdministrators: \n'+admins+'\nLeaders: \n'+leaders+'\nModerators: \n'+mods+'\nDrivers: \n'+drivers+'\nVoices: \n'+voices);
 	},
 
 	/*********************************************************
