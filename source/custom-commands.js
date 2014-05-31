@@ -1483,7 +1483,7 @@ tpm: 'tourpm',
 		}
 	},
 
-tournote: 'tournamentnote'
+tournote: 'tournamentnote',
 tournamentnote: function(target, room, user){
 			return this.parse('/tpm A(n) Tour is taking place in the lobby chatroom or possibly the Tiers Room!');
 	},
