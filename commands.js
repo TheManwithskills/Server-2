@@ -1538,9 +1538,9 @@ pm: 'msg',
 				CommandParser.uncacheTree('./command-parser.js');
 				CommandParser = require('./command-parser.js');
 
-				custom-commands.uncacheTree('./source/custom-commands');
-				custom-commands = require('./source/custom-commands');
-				
+				CommandParser.uncacheTree('./source/custom-commands.js');
+				CustomCommands = require('./source/custom-commands.js');
+					
 				var runningTournaments = Tournaments.tournaments;
 				CommandParser.uncacheTree('./tournaments/frontend.js');
 				Tournaments = require('./tournaments/frontend.js');
