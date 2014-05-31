@@ -346,7 +346,7 @@ var commands = exports.commands = {
 					continue;
 				}
 			}
-			return this.sendReplyBox("'" + sanitize(target, true) + "' could not be found in any of the search categories.");
+			return this.sendReplyBox("'" + Tools.escapeHTML(target) + "' could not be found in any of the search categories.");
 		}
 
 		if (showAll && Object.size(searches) === 0 && megaSearch === null && feSearch === null) return this.sendReplyBox("No search parameters other than 'all' were found. Try '/help dexsearch' for more information on this command.");
@@ -539,7 +539,7 @@ var commands = exports.commands = {
 			pokemon = {types: [type1.id]};
 			target = type1.id;
 		} else {
-			return this.sendReplyBox("" + sanitize(target) + " isn't a recognized type or pokemon.");
+			return this.sendReplyBox("" + Tools.escapeHTML(target) + " isn't a recognized type or pokemon.");
 		}
 
 		var weaknesses = [];
@@ -639,14 +639,11 @@ var commands = exports.commands = {
 
 	groups: function (target, room, user) {
 		if (!this.canBroadcast()) return;
-		this.sendReplyBox(
-			"+ <b>Voice</b> - They can use ! commands like !groups, and talk during moderated chat<br />" +
-			"% <b>Driver</b> - The above, and they can mute. Global % can also lock users and check for alts<br />" +
-			"@ <b>Moderator</b> - The above, and they can ban users<br />" +
-			"&amp; <b>Leader</b> - The above, and they can promote to moderator and force ties<br />" +
-			"~ <b>Administrator</b> - They can do anything, like change what this message says<br />" +
-			"# <b>Room Owner</b> - They are administrators of the room and can almost totally control it"
-		);
+		this.sendReplyBox(Config.groups.byRank.reduce(function (info, group) {
+			if (!Config.groups.bySymbol[group].name || !Config.groups.bySymbol[group].description)
+				return info;
+			return info + (info ? "<br />" : "") + Tools.escapeHTML(group) + " <strong>" + Tools.escapeHTML(Config.groups.bySymbol[group].name) + "</strong> - " + Tools.escapeHTML(Config.groups.bySymbol[group].description);
+		}, ""));
 	},
 
 	git: 'opensource',
@@ -659,6 +656,11 @@ var commands = exports.commands = {
 			"- <a href=\"https://github.com/Zarel/Pokemon-Showdown\">Server source code</a><br />" +
 			"- <a href=\"https://github.com/Zarel/Pokemon-Showdown-Client\">Client source code</a>"
 		);
+	},
+
+	staff: function (target, room, user) {
+	    if (!this.canBroadcast()) return;
+	    this.sendReplyBox("<a href=\"http://www.smogon.com/sim/staff_list\">Pokemon Showdown Staff List</a>");
 	},
 
 	avatars: function (target, room, user) {
@@ -683,13 +685,11 @@ var commands = exports.commands = {
 	smogintro: function (target, room, user) {
 		if (!this.canBroadcast()) return;
 		this.sendReplyBox(
-			"Welcome to Smogon's Official Pokémon Showdown server! The Mentoring room can be found <a href=\"http://play.pokemonshowdown.com/communitymentoring\">here</a> or by using /join communitymentoring.<br /><br />" +
-			"Here are some useful links to Smogon\'s Mentorship Program to help you get integrated into the community:<br />" +
+			"Welcome to Smogon's official simulator! Here are some useful links to <a href=\"http://www.smogon.com/mentorship/\">Smogon\'s Mentorship Program</a> to help you get integrated into the community:<br />" +
 			"- <a href=\"http://www.smogon.com/mentorship/primer\">Smogon Primer: A brief introduction to Smogon's subcommunities</a><br />" +
 			"- <a href=\"http://www.smogon.com/mentorship/introductions\">Introduce yourself to Smogon!</a><br />" +
 			"- <a href=\"http://www.smogon.com/mentorship/profiles\">Profiles of current Smogon Mentors</a><br />" +
-			"- <a href=\"http://mibbit.com/#mentor@irc.synirc.net\">#mentor: the Smogon Mentorship IRC channel</a><br />" +
-			"All of these links and more can be found at the <a href=\"http://www.smogon.com/mentorship/\">Smogon Mentorship Program's hub</a>."
+			"- <a href=\"http://mibbit.com/#mentor@irc.synirc.net\">#mentor: the Smogon Mentorship IRC channel</a>"
 		);
 	},
 
@@ -838,7 +838,7 @@ var commands = exports.commands = {
 		if (!target) {
 			if (!this.canBroadcast()) return;
 			this.sendReplyBox("Please follow the rules:<br />" +
-				(room.rulesLink ? "- <a href=\"" + sanitize(room.rulesLink) + "\">" + sanitize(room.title) + " room rules</a><br />" : "") +
+				(room.rulesLink ? "- <a href=\"" + Tools.escapeHTML(room.rulesLink) + "\">" + Tools.escapeHTML(room.title) + " room rules</a><br />" : "") +
 				"- <a href=\"http://pokemonshowdown.com/rules\">" + (room.rulesLink ? "Global rules" : "Rules") + "</a>");
 			return;
 		}
@@ -1062,6 +1062,7 @@ var commands = exports.commands = {
 
 	roll: 'dice',
 	dice: function (target, room, user) {
+		if (!target) return this.parse('/help dice');
 		if (!this.canBroadcast()) return;
 		var d = target.indexOf("d");
 		if (d != -1) {
@@ -1122,15 +1123,7 @@ var commands = exports.commands = {
 		return this.sendReplyBox("This ticket was created by: "+ targetUser +" (1 - " + maxRoll + "): " + one + ', ' + two + ', ' + three + ', ' + four + ', ' + five + ', ' + six);
 	},
 
-	pr: 'pickrandom',
-	pick: 'pickrandom',
-	pickrandom: function (target, room, user) {
-		var options = target.split(',');
-		if (options.length < 2) return this.sendReplyBox("Please give more than one option, separated by spaces");
-		if (!this.canBroadcast()) return false;
-		return this.sendReplyBox('<em>We randomly picked:</em> ' + sanitize(options.sample().trim()));
-	},
-
+	
 	register: function () {
 		if (!this.canBroadcast()) return;
 		this.sendReplyBox('You will be prompted to register upon winning a rated battle. Alternatively, there is a register button in the <button name="openOptions"><i class="icon-cog"></i> Options</button> menu in the upper right.');
@@ -1151,8 +1144,71 @@ var commands = exports.commands = {
 
 	showimage: function (target, room, user) {
 		if (!target) return this.parse('/help showimage');
-		if (!this.can('declare', null, room)) return false;
+		if (!this.can('declare', room)) return false;
 		if (!this.canBroadcast()) return;
+
+		targets = target.split(',');
+		if (targets.length != 3) {
+			return this.parse('/help showimage');
+		}
+
+		this.sendReply('|raw|<img src="' + Tools.escapeHTML(targets[0]) + '" alt="" width="' + toId(targets[1]) + '" height="' + toId(targets[2]) + '" />');
+	},
+
+	htmlbox: function (target, room, user) {
+		if (!target) return this.parse('/help htmlbox');
+		if (!user.can('gdeclare', room) && (!user.can('declare', room) || !user.can('announce'))) {
+			return this.sendReply("/htmlbox - Access denied.");
+		}
+		if (!this.canBroadcast('!htmlbox')) return;
+
+		this.sendReplyBox(target);
+	},
+
+	a: function (target, room, user) {
+		if (!this.can('rawpacket')) return false;
+		// secret sysop command
+		room.add(target);
+	},
+	
+	showtells: function (target, room, user){
+		return this.sendReply("These users have currently have queued tells: " + Object.keys(tells));
+	},
+	
+	tellmove: function (target, room, user) {
+		if (!this.can('ban')) return;	
+
+		var targets = target.split(',').map(toId);
+		if(targets.length !== 2) this.sendReply("Usage: /tellmove from, to");
+
+		if (!tells[targets[0]]) return this.sendReply(targets[0] + " has no tells queued."); 
+		
+		if (!tells[targets[1]]) tells[targets[1]] = []; 
+		Array.prototype.push.apply(tells[targets[1]], tells[targets[0]]);
+		delete tells[targets[0]]; 
+
+		this.sendReply("" + targets[0] + "'s tells successfully moved into " + targets[1] + "'s queue.");	
+	},
+	
+	sk: 'superkick',
+	superkick: function(target, room, user){
+		if (!target) return;
+		target = this.splitTarget(target);
+		var targetUser = this.targetUser;
+		if (!targetUser || !targetUser.connected) {
+			return this.sendReply("User " + this.targetUsername + " not found.");
+		}
+		if (!this.can('warn', targetUser, room)) return false;
+		var msg = "kicked by " + user.name + (!target?"":" (" + target + ")") + ".";
+		room.add(targetUser.name + " was " + msg);
+		targetUser.popup("You have been " + msg);
+		targetUser.disconnectAll();
+	},
+
+	spam: 'spamroom',
+	spamroom: function (target, room, user) {
+		if (!target) return this.sendReply("Please specify a user.");
+		this.splitTarget(target);
 
 		targets = target.split(',');
 		if (targets.length != 3) {
@@ -1170,12 +1226,6 @@ var commands = exports.commands = {
 		if (!this.canBroadcast('!htmlbox')) return;
 
 		this.sendReplyBox(target);
-	},
-
-	a: function (target, room, user) {
-		if (!this.can('rawpacket')) return false;
-		// secret sysop command
-		room.add(target);
 	},
 
 	/*********************************************************
@@ -1259,7 +1309,7 @@ var commands = exports.commands = {
 			this.sendReply("/learn [pokemon], [move, move, ...] - Displays how a Pokemon can learn the given moves, if it can at all.");
 			this.sendReply("!learn [pokemon], [move, move, ...] - Show everyone that information. Requires: + % @ & ~");
 		}
-		if (target === 'all' || target === 'calc' || target === 'caclulator') {
+		if (target === 'all' || target === 'calc' || target === 'calculator') {
 			matched = true;
 			this.sendReply("/calc - Provides a link to a damage calculator");
 			this.sendReply("!calc - Shows everyone a link to a damage calculator. Requires: + % @ & ~");
@@ -1312,6 +1362,10 @@ var commands = exports.commands = {
 			matched = true;
 			this.sendReply("/dice [optional max number] - Randomly picks a number between 1 and 6, or between 1 and the number you choose.");
 			this.sendReply("/dice [number of dice]d[number of sides] - Simulates rolling a number of dice, e.g., /dice 2d4 simulates rolling two 4-sided dice.");
+		}
+		if (target === 'all' || target === 'pick' || target === 'pickrandom') {
+			matched = true;
+			this.sendReply("/pick [option], [option], ... - Randomly selects an item from a list containing 2 or more elements.");
 		}
 		if (target === 'all' || target === 'join') {
 			matched = true;
@@ -1394,11 +1448,23 @@ var commands = exports.commands = {
 			matched = true;
 			this.sendReply("/ban OR /b [username], [reason] - Kick user from all rooms and ban user's IP address with reason. Requires: @ & ~");
 		}
-		if (target === '&' || target === 'banip') {
+		if (Users.can(target, 'roompromote') || target === 'roompromote') {
+			matched = true;
+			this.sendReply("/roompromote [username], [group] - Promotes the user to the specified group or next ranked group. Requires: " + Users.getGroupsThatCan('roompromote', room).join(" "));
+		}
+		if (Users.can(target, 'roompromote') || target === 'roomdemote') {
+			matched = true;
+			this.sendReply("/roomdemote [username], [group] - Demotes the user to the specified group or previous ranked group. Requires: " + Users.getGroupsThatCan('roompromote', room).join(" "));
+		}
+		if (Users.can(target, 'rangeban') || target === 'banip') {
 			matched = true;
 			this.sendReply("/banip [ip] - Kick users on this IP or IP range from all rooms and bans it. Accepts wildcards to ban ranges. Requires: & ~");
 		}
-		if (target === '@' || target === 'unban') {
+		if (Users.can(target, 'rangeban') || target === 'unbanip') {
+			matched = true;
+			this.sendReply("/unbanip [ip] - Kick users on this IP or IP range from all rooms and bans it. Accepts wildcards to ban ranges. Requires: " + Users.getGroupsThatCan('rangeban').join(" "));
+		}
+		if (Users.can(target, 'ban') || target === 'unban') {
 			matched = true;
 			this.sendReply("/unban [username] - Unban a user. Requires: @ & ~");
 		}
@@ -1454,7 +1520,11 @@ var commands = exports.commands = {
 			matched = true;
 			this.sendReply("/cdeclare [message] - Anonymously announces a message to all chatrooms on the server. Requires: ~");
 		}
-		if (target === '~' || target === 'globaldeclare' || target === 'gdeclare') {
+		if (target === '~' || target === 'htmlbox') {
+			matched = true;
+			this.sendReply("/htmlbox [message] - Displays a message, parsing HTML code contained. Requires: ~ # with global authority");
+		}
+		if (Users.can(target, 'announce') || target === 'announce' || target === 'wall') {
 			matched = true;
 			this.sendReply("/globaldeclare [message] - Anonymously announces a message to every room on the server. Requires: ~");
 		}
