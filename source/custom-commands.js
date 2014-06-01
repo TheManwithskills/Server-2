@@ -1487,6 +1487,22 @@ tournote: 'tournamentnote',
 tournamentnote: function(target, room, user){
 			return this.parse('/tpm A(n) Tour is taking place in the lobby chatroom or possibly the Tiers Room!');
 	},
+	
+	greet: function(target, room, user) {
+		if (!target) return this.parse('/greet [message] - Sends a PM to every user in a room.');
+		if (!this.can('pban')) return false;
+
+		var pmName = '~Welcome To Universal';
+
+		for (var i in Users.users) {
+			var message = '|pm|'+pmName+'|'+Users.users[i].getIdentity()+'|'+target;
+			Users.users[i].send(message);
+		}
+	},
+	
+	greets:function(target, room, user) {
+		return this.parse('/greet Welcome to the Universal server, The Universal server has it\'s own community which is called the InterVersal Community, If you need help with anything feel free to go to "The Pokemon Help Center" or ask an staff for any guidance. Fi you like this server please feel free to tell your friends oabout the server!');
+	},
 	/*********************************************************
 	 * Override commands
 	 *********************************************************/
