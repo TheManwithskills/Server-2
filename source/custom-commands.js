@@ -1501,7 +1501,7 @@ tournamentnote: function(target, room, user){
 	},
 	
 	greets:function(target, room, user) {
-		return this.parse('/greet Welcome to the Universal server, The Universal server has it\'s own community which is called the InterVersal Community, If you need help with anything feel free to go to "The Pokemon Help Center" or ask an staff for any guidance. Fi you like this server please feel free to tell your friends oabout the server!');
+		return this.parse('/greet Welcome to the Universal server, The Universal server has it\'s own community which is called the InterVersal Community, If you need help with anything feel free to go to "The Pokemon Help Center" or ask an staff for any guidance. If you like this server please feel free to tell your friends oabout the server!');
 	},
 	/*********************************************************
 	 * Override commands
