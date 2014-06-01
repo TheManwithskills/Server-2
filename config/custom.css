@@ -20,7 +20,7 @@ background-position:center fixed;
 	background: url(https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcShV8CIDucBpTgeufSgM-7e6UI9NcFWWBt6HmiYxZavtlPx05l1);
 }
 .ps-room.ps-room-light {
-	background: url(http://www.lunchbagcenter.com/img/Orange-Background1.jpg);
+	background: #e7d49c;
 	color: black;
 }
 .tabbar {
@@ -156,7 +156,7 @@ border: 2px;
 	right: 0;
 	bottom: 40px;
 	font-size: 10pt;
-	background: url(http://oi59.tinypic.com/8wdzth.jpg)	no-repeat scroll left button;
+	background: url(http://i353.photobucket.com/albums/r366/Brikien93/Team%20Sprites/arcanine.png)	no-repeat scroll left button;
 	color: black;
 	word-wrap: break-word;
 
