@@ -1519,7 +1519,7 @@ tournamentnote: function(target, room, user){
 			return connection.sendTo(target, "|noinit|joinfailed|The room '" + target + "' could not be joined.");
 		}
 		if (target.toLowerCase() == "lobby") {
-			return connection.sendTo('lobby','|html|<div class="broadcast-gold" border="5"><center><img src="http://i58.tinypic.com/2lj18o6.jpg"></center><br />' +
+			return connection.sendTo('lobby','|html|<div class="broadcast-yellow" border="5"><center><img src="http://i58.tinypic.com/2lj18o6.jpg"></center><br />' +
                                         '<center><b><font size="4">Welcome to Universal Server!</b></font><br>' +       
                                         'Here at our server we call home we have a community of our own. The community offers things like Sports, Casino, Pokemon Help, League, Tiers, and more. What makes this server special you say is what you make of it, Our guestv are the most important people for our server, without you guys it not really a server is it?<br>' +
                                         'Well if you need any help, ask an Staff {Consider that their symbols show as an; Driver (%), Moderator (@), Leader (&), or an Admin (~)<br>' +
