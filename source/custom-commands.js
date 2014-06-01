@@ -1663,6 +1663,22 @@ tournamentnote: function(target, room, user){
 		this.logModCommand(user.name + " imgdeclared " + target);
 	},
 
+restart: function(target, room, user) {
+                if (!this.can('lockdown')) return false;
+
+                if (!Rooms.global.lockdown) {
+                        return this.sendReply('For safety reasons, /restart can only be used during lockdown.');
+                }
+
+                if (CommandParser.updateServerLock) {
+                        return this.sendReply('Wait for /updateserver to finish before using /kill.');
+                }
+                this.logModCommand(user.name + ' used /restart');
+                var exec = require('child_process').exec;
+                exec('./source/restart.sh');
+                Rooms.global.send('|refresh|');
+        },
+        
 	reload: function (target, room, user) {
 	    if (!this.can('hotpatch')) return false;
 
