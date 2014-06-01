@@ -1,118 +1,82 @@
-body 	
-{
-background-image:url('http://i60.tinypic.com/10oo1lc.jpg');
-background-repeat:no-repeat;
-background-position:center fixed;
+#header {
+    background: url(http://thecutestblogontheblock.com/wp-content/uploads/2013/02/pinstripe-gray-free-twitter-header.jpg);
 }
-.userbar{
-	border:1px solid #b6b6b6;
-	padding:5px;
-	background:#EBEBEB;
-	margin-top:-5px
-}
-.hangman{
-  background: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTON6LUby2djPvjHAIfjAQVNetioQun7ONw46LnS4MLIwH6ZYUi) center;
-  color: #eff;
-  }
-.header {
-	position: relative;
-	height: 56px;
-	background: url(https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcShV8CIDucBpTgeufSgM-7e6UI9NcFWWBt6HmiYxZavtlPx05l1);
-}
-.ps-room.ps-room-light {
-	background: #e7d49c;
-	color: black;
-}
-.tabbar {
-	position: absolute;
-	bottom: 1px;
-	left: 0;
-	right: 0;
 
-	display: block;
-	list-style: none;
-	margin: 0;
-	padding: 0 0 0 0;
-	height: 37px;
-	text-align: left;
-
-	color: white;
-	text-shadow: 0 1px 0 black;
-	font-size: 10pt;
-
-	line-height: 100%;
+.tabbar a.button.cur,.tabbar a.button.cur:hover {
+    color: #FFF;
+    background: #363f47;
+    border-color: #949ba1;
 }
+
+.closebutton,.minimizebutton {
+    color: #e8e8e8;
+}
+
+.closebutton:hover,.minimizebutton:hover {
+    color: #DDDDDD;
+}
+
+.tabbar a.button {
+    border: solid 1px #000;
+}
+
+.icon-user {
+    color: #0c4680!important;
+}
+
 .maintabbarbottom {
-	content: "";
-	display: block;
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: -6px;
-	height: 6px;
-	background: linear-gradient(to bottom, rgba(0,0,0,.6) 0%, rgba(0,0,0,0) 100%);
-	border: none;
-	border-left: 0;
-	margin: -1px 0 0 0;
-	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  	z-index:2;
-	box-shadow: none;
-}
-.tabbar a.button:hover{
-    background: #e7e8e9;
-    color: #0c1213
-    }
-.tabbar a.button span {
-	display: block;
-	overflow: hidden;
-}
-.tabbar.maintabbar {
-margin-left: 170px;
-margin-right: 0px;
-overflow: hidden;
-  height: 55px;
-  background-position: right;
-  background-repeat: no-repeat;
+    background: #343d45;
+    border: 1px solid #000;
 }
 
-.tabbar a.button.cur, .tabbar a.button.cur:hover, .tabbar a.button{
-color: #ecf0f1;
-background: #333333;
-box-shadow: none;
-  border: none;
-cursor: default;
-top: 0px;
-  border-radius: 5px;
-text-shadow: none;
-  margin-left: 5px;
-  margin-top:15px;
+body {
+    background-image:url("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQIFEz-7gitLCV4jf9fdsq_NPApuU9HdMoin8heshSDN2tXS8nnsw");
+    background-repeat:no-repeat;background-position:center
+    }
+
+.menugroup .button {
+    background: #111111;
+    border-color: #111111;
+    color: #FFF;
+    font-size: 8pt;
+    opacity: .8;
 }
-.closebutton,
-.minimizebutton {
-	text-decoration: none;
-	font-size: 14px;
-	color: #FFFFFF;
-	text-shadow: none;
-	border: 0;
-	padding: 0;
-	margin: 0;
-  	top: 19px;
-	cursor: pointer;
+
+.menugroup .button:hover {
+    background: #001F3F;
 }
-.tabbar .closebutton, .tabbar a.cur+.closebutton {
-top: 19px;
+
+.menugroup button.big {
+    font-size: 10pt;
 }
-.closebutton:hover {
-color: #a00;
+
+.mainmenufooter a {
+    color: #96969e;
+    font-size: 8pt;
+    text-decoration: none;
+    font-style: italic;
 }
-.closebutton {
-color: #ecf0f1;
+
+.mainmenufooter a:hover {
+    color: #DDDDDD;
+    text-decoration: none;
+}
+
+.mainmenufooter {
+    color: #D9BADB;
+}
+
+.ps-room.ps-room-light {
+    opacity: .99;
+}
+
+.ps-room {
+    border-left: 2px solid #6F6F6F;
 }
 
 .userlist{
-	background: url(http://fc06.deviantart.net/fs71/i/2010/362/4/3/custom_box_bg_3_by_idislikethisbit-d35urz7.jpg);
-  	color: white;
+background:#a7b8b8;
+   color: white;
 }
 
 .userlist li button:hover {
@@ -122,82 +86,110 @@ background: black;
 .userlist li{
 border-bottom: 1px solid #1b1b1b;
 }
-.broadcast-black {
-	background: black;
-}
-.pm-log {
-	min-height: 100px;
-	max-height: 300px;
-	background: url(http://www.echodeck.net/webflyer/images/cool_present_bg.gif);
-	color: #FFFFFF;
-	word-wrap: break-word;
-	border: 1px solid #AAAAAA;
-	border-top: 0;
-	border-bottom: 0;
 
-	overflow: auto;
-	-webkit-overflow-scrolling: touch;
-	overflow-scrolling: touch;
+.chat-log-add {
+    border-top: 2px solid #6F6F6F;
 }
-.pm-window h3 {
-    background: url(https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTCdwY2n4xxqwvQxC2BLTmlfp07A_sj6g2i3wmBwwJ2B2bzeth4);
-  	border: 2px;
+
+.userlist li em.group {
+    color: #535353;
 }
-.pm-window.focused h3, .pm-window.focused h3:hover {
-background: url(https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTeg4InoIuA8bcY2DbOB2iHFDokCRjsqjz514OZZCftNMeSeDeMUg);
-border: 2px;
+
+.userlist li button:hover {
+    background: #D5DADD;
 }
-.pm-log-add{
-        background: #a00;
-  		border: 2px;
-    	border-color: #000;
-}
+
 .chat-log {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 40px;
-	font-size: 10pt;
-	background: #e7d49c;
-	color: black;
-	word-wrap: break-word;
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 40px;
+font-size: 10pt;
+background: url("http://img2.wikia.nocookie.net/__cb20130313231409/scratchpad/images/3/32/Pikachu2.png") no-repeat center;
+color: black;
+word-wrap: break-word;
 
-	overflow: auto;
-	overflow-x: hidden;
-	-webkit-overflow-scrolling: touch;
-	overflow-scrolling: touch;
-}
-.battle-log{
-  background: url(http://img0.etsystatic.com/039/1/8274094/il_340x270.505670076_jwtp.jpg);
-}
-.chat-log-add,
-/*"Look for a battle" buttons (when hovered over)*/
-.menugroup .button:hover {
-   	background: #100;
-  	color: #ff4b00
+overflow: auto;
+overflow-x: hidden;
+-webkit-overflow-scrolling: touch;
+overflow-scrolling: touch;
 }
 
-/*"Look for a battle" buttons*/
-.menugroup .button {
-    	background: #eff;
-  		color: #ff9500
+.message-announce {
+    background: #384059;
 }
-.ladder table, .ladder td, .ladder th {
-  	background: #dfdfdf;
-	border-collapse: collapse;
-	border: 2px solid #eff;
-  	font-weight: bold;
+
+.pm-window h3 {
+    background: #282e33;
+    color: #FFF;
+    border: 1px solid #000;
+    opacity: .8;
 }
-.ladder td, .ladder th {
-	padding: 3px 5px;
-  	border: 2px solid #100;
-    font-weight: bold;
+
+.pm-window h3:hover {
+    color: #DDDDDD;
 }
-.ladder th {
-	text-align: left;
-	font-size: 9pt;
-  	font-weight: bold;
-	background: #EEEEEE;
+
+.pm-window h3 small {
+    color: #FFF;
 }
+
+.pm-log {
+min-height: 100px;
+max-height: 300px;
+background: #98dae2;
+color: #FFFFFF;
+word-wrap: break-word;
+border: 1px solid #AAAAAA;
+border-top: 0;
+border-bottom: 0;
+
+overflow: auto;
+-webkit-overflow-scrolling: touch;
+overflow-scrolling: touch;
+}
+
+.pm-log-add {
+    background: #2c3138;
+    border: 1px solid #000;
+}
+
+.pm-window.focused h3,.pm-window.focused h3:hover {
+    color: #FFF;
+    background: #d1d100;
+}
+
+.broadcast-blue {
+    background-color: #142E50;
+    border: 2px solid #fff;
+}
+
+.broadcast-red {
+    background-color: #520B0B;
+    border: 2px solid #fff;
+}
+
+.broadcast-green {
+    background-color: #5b9f5b;
+    border: 2px solid #fff;
+}
+
+.broadcast-yellow {
+    background-color: #d8e78d;
+    border: 2px solid #fff;
+}
+
+.ps-popup {
+    background: #D8D8D8;
+    border: 1px solid #000;
+}
+
+.ps-popup a {
+    color: #575757;
+    text-decoration: none;
+}
+
+.ps-popup a:hover {
+    color: #b7c7d7;
 }
