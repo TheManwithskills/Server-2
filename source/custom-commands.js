@@ -529,7 +529,7 @@ target.toLowerCase().replace(/ /g,'-');
 	shop: function(target, room, user) {
 		if (!this.canBroadcast()) return;
 		this.sendReplyBox('<div class = "broadcast-black"><center><h4><b><u>The InterVersal Shop</u></b></h4><table border="1" cellspacing="0" cellpadding="3"><tr><th>Items</th><th>Description</th><th>Cost</th></tr>' +
-		'<tr><td>Lotto Ticket</td><td>Buys you an lottery ticket.</td><td>15</td></tr>' +
+		'<tr><td>Lotto Ticket</td><td>Buys you an lottery ticket.</td><td>3</td></tr>' +
 		'<tr><td>Symbol</td><td>Buys a custom symbol to go infront of name and puts you at top of userlist. (temporary until restart)</td><td>5</td></tr>' +
 		'<tr><td>Fix</td><td>Buys the ability to alter your current custom avatar or trainer card. (don\'t buy if you have neither)</td><td>10</td></tr>' +
 		'<tr><td>Poof</td><td>Buys the ability to add a custom poof.</td><td>15</td></tr>' +
