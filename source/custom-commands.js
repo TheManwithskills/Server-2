@@ -572,6 +572,7 @@ target.toLowerCase().replace(/ /g,'-');
 				this.sendReply('You have purchased a lottery.');
 				this.add(user.name + ' has purchased a lottery ticket.');
 				user.canLottery = true;
+				if(!user.canLottery) return this.parse('./lotto');
 				fs.appendFile('logs/transactions.log','\n'+Date()+': '+user.name+' has bought a ' + target + ' for ' + price + ' bucks. ' + user.name + ' now has ' + user.money + ' bucks' + '.');
 			} else {
 				return this.sendReply('You do not have enough bucks for this. You need ' + (price - user.money) + ' more bucks to buy ' + target + '.');
@@ -727,7 +728,6 @@ target.toLowerCase().replace(/ /g,'-');
 	lottery: function(target, room, user) {
 		if(!user.canLottery) return this.sendReply('You need to buy this item from the shop to use.');
 		if(!target || target.length > 1) return this.sendReply('|raw|/lotto to get your lottery ticket.');
-		if(!user.canLottery) return this.parse('./lotto');
 		user.canLottery = false;
 		user.hasLottery = true;
 	},
