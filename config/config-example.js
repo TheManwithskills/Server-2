@@ -304,6 +304,24 @@ exports.groups = {
 			timer: true,
 			warn: true
 		},
+		'☭': {
+                        id: 'donor',
+                        name: "Donor",
+                        description: "They have bought this rank using real money ($3)",
+                        inherit: '✡',
+                },
+                '✡': {
+                        id: 'trainer',
+                        name: "Trainer",
+                        description: "They have bought this rank using real money ($2)",
+                        inherit: '✯',
+                },
+                '✯': {
+                        id: 'rookie',
+                        name: "Rookie",
+                        description: "They have bought this rank using real money ($1)",
+                        inherit: '+',
+                },
 		'+': {
 			id: 'voice',
 			name: "Voice",
