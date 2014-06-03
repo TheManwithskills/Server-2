@@ -347,9 +347,6 @@ var commands = exports.commands = {
 		if (!user.joinRoom(targetRoom || room, connection)) {
 			return connection.sendTo(target, "|noinit|joinfailed|The room '" + target + "' could not be joined.");
 		}
-		if (target.toLowerCase() == "lobby") {
-user.send('|pm|~Welcome To Universal|'+user.name+'| Welcome to the Universal server, The Universal server has it\'s own community which is called the InterVersal Community, If you need help with anything feel free to go to "The Pokemon Help Center" or ask an staff for any guidance. If you like this server please feel free to tell your friends about the server!');
-}
 },
 
 	rb: 'roomban',
