@@ -764,7 +764,7 @@ fs.appendFile('logs/modlog/modlog_staff.txt','[' + (new Date().toJSON()) + '] (s
 connection.sendTo(room, '|raw|<strong class="message-throttle-notice">You have been locked for attempting to advertise three times.');
 Users.messageSeniorStaff(this.name+' has been locked for attempting to advertise three times. Room: '+room.id+'. Message: '+message);
 return false;
-}
+},
 	 friends: function(target, room, user, connection) {
 		var data = fs.readFileSync('config/friends.csv','utf8')
 			var match = false;
