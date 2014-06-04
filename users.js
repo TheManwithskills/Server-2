@@ -131,16 +131,7 @@ function can(group, permission, targetGroup, room, isSelf) {
 	}
 	return false;
 }
-function messageSeniorStaff (message) {
-if (!message) return false;
-for (var u in Users.users) {
-if (Users.users[u].group == '&' || Users.users[u].group == '~') {
-Users.users[u].send('|pm|~Server|'+Users.users[u].group+Users.users[u].name+'|'+message);
-}
-}
-}
 
-exports.messageSeniorStaff = messageSeniorStaff;
 /*********************************************************
  * Routing
  *********************************************************/
@@ -1293,16 +1284,6 @@ var User = (function () {
 			ResourceMonitor.activeIp = null;
 			return false; // but end the loop here
 		}
-			if (toId(message).indexOf('psimus') > -1 && message.toLowerCase().indexOf('universal.psim.us') == -1 && !this.universalDev && this.group != '~' || message.toLowerCase().indexOf("play.pokemonshowdown.com/~~") > -1 && message.toLowerCase().indexOf("play.pokemonshowdown.com/~~universal") == -1 && !this.universalDev) {
-				if (!this.advWarns) this.advWarns = 0;
-				this.advWarns++;
-				if (this.advWarns > 3) {
-			this.lock();
-			fs.appendFile('logs/modlog/modlog_staff.txt','[' + (new Date().toJSON()) + '] (staff) '+this.name+' was automatically locked for attempting to advertise 3 times.\n');
-			connection.sendTo(room, '|raw|<strong class="message-throttle-notice">You have been locked for attempting to advertise three times.');
-		Users.messageSeniorStaff(this.name+' has been locked for attempting to advertise three times. Room: '+room.id+'. Message: '+message);
-			return false;
-				}
 
 		if (this.chatQueueTimeout) {
 			if (!this.chatQueue) this.chatQueue = []; // this should never happen
