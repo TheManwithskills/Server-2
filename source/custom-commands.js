@@ -528,7 +528,18 @@ target.toLowerCase().replace(/ /g,'-');
 
 	shop: function(target, room, user) {
 		if (!this.canBroadcast()) return;
-		this.sendReplyBox('<center><h4><b><u>The InterVersal Shop</u></b></h4><table border="1" cellspacing="0" cellpadding="3"><tr><th>Items</th><th>Description</th><th>Cost</th></tr><tr><td>Symbol</td><td>Buys a custom symbol to go infront of name and puts you at top of userlist. (temporary until restart)</td><td>5</td></tr><tr><td>Fix</td><td>Buys the ability to alter your current custom avatar or trainer card. (don\'t buy if you have neither)</td><td>10</td></tr><tr><td>Poof</td><td>Buys the ability to add a custom poof.</td><td>15</td></tr><tr><td>Custom</td><td>Buys a custom avatar to be applied to your name. (you supply)</td><td>20</td></tr><tr><td>Animated</td><td>Buys an animated avatar to be applied to your name. (you supply)</td><td>25</td></tr><tr><td>Trainer</td><td>Buys a trainer card which shows information through a command such as <i>/beforemath</i>.</td><td>30</td></tr><tr><td>Room</td><td>Buys a chatroom for you to own. (within reason, can be refused)</td><td>50</td></tr><tr><td>Voice</td><td>Buys a promotion to global voice.</td><td>100</td></tr><tr><td>Player</td><td>Buys a promotion to room player of any room you want.</td><td>250</td></tr></table></table><br/>To buy an item from the shop, use /buy <i>command</i>. <br/></center>');
+		this.sendReplyBox('<div class = "broadcast-black"><center><h4><b><u>The InterVersal Shop</u></b></h4><table border="1" cellspacing="0" cellpadding="3"><tr><th>Items</th><th>Description</th><th>Cost</th></tr>' +
+		'<tr><td>Lotto Ticket</td><td>Buys you an lottery ticket.</td><td>3</td></tr>' +
+		'<tr><td>Symbol</td><td>Buys a custom symbol to go infront of name and puts you at top of userlist. (temporary until restart)</td><td>5</td></tr>' +
+		'<tr><td>Fix</td><td>Buys the ability to alter your current custom avatar or trainer card. (don\'t buy if you have neither)</td><td>10</td></tr>' +
+		'<tr><td>Poof</td><td>Buys the ability to add a custom poof.</td><td>15</td></tr>' +
+		'<tr><td>Custom</td><td>Buys a custom avatar to be applied to your name. (you supply)</td><td>20</td></tr>' +
+		'<tr><td>Animated</td><td>Buys an animated avatar to be applied to your name. (you supply)</td><td>25</td></tr>' +
+		'<tr><td>Trainer</td><td>Buys a trainer card which shows information through a command such as <i>/beforemath</i>.</td><td>30</td></tr>' +
+		'<tr><td>Room</td><td>Buys a chatroom for you to own. (within reason, can be refused)</td><td>50</td></tr>' +
+		'<tr><td>Voice</td><td>Buys a promotion to global voice.</td><td>100</td></tr>' +
+		'<tr><td>Player</td><td>Buys a promotion to room player of any room you want.</td><td>250</td></tr>' +
+		'</table><br/>To buy an item from the shop, use /buy <i>command</i>. <br/></center>');
 	},
 
 	buy: function(target, room, user) {
@@ -554,6 +565,19 @@ target.toLowerCase().replace(/ /g,'-');
 		}
 		user.money = money;
 		var price = 0;
+			if (target === 'ticket') {
+			price = 3;
+			if (price <= user.money) {
+				user.money = user.money - price;
+				this.sendReply('You have purchased a lottery.');
+				this.add(user.name + ' has purchased a lottery ticket.');
+				user.canLottery = true;
+				if(!user.canLottery) return this.parse('./lotto');
+				fs.appendFile('logs/transactions.log','\n'+Date()+': '+user.name+' has bought a ' + target + ' for ' + price + ' bucks. ' + user.name + ' now has ' + user.money + ' bucks' + '.');
+			} else {
+				return this.sendReply('You do not have enough bucks for this. You need ' + (price - user.money) + ' more bucks to buy ' + target + '.');
+			}
+		}
 		if (target === 'symbol') {
 			price = 5;
 			if (price <= user.money) {
@@ -699,6 +723,19 @@ target.toLowerCase().replace(/ /g,'-');
 		user.hasCustomSymbol = false;
 		user.updateIdentity();
 		this.sendReply('Your symbol has been reset.');
+	},
+	
+	lottery: function(target, room, user) {
+		if(!user.canLottery) return this.sendReply('You need to buy this item from the shop to use.');
+		if(!target || target.length > 1) return this.sendReply('|raw|/lotto to get your lottery ticket.');
+		user.canLottery = false;
+		user.hasLottery = true;
+	},
+
+	savelottery: function(target, room, user) {
+		if (!user.hasLottery) return this.sendReply('You don\'t have a Lottery ticket!');
+		user.hasLottery = false;
+		this.sendReply('Your lottery ticket has been saved.');
 	},
 
 	/*********************************************************
@@ -1487,6 +1524,22 @@ tournote: 'tournamentnote',
 tournamentnote: function(target, room, user){
 			return this.parse('/tpm A(n) Tour is taking place in the lobby chatroom or possibly the Tiers Room!');
 	},
+	
+	greet: function(target, room, user) {
+		if (!target) return this.parse('/greet [message] - Sends a PM to every user in a room.');
+		if (!this.can('pban')) return false;
+
+		var pmName = '~Welcome To Universal';
+
+		for (var i in Users.users) {
+			var message = '|pm|'+pmName+'|'+Users.users[i].getIdentity()+'|'+target;
+			Users.users[i].send(message);
+		}
+	},
+	
+	greets:function(target, room, user) {
+		return this.parse('/greet Welcome to the Universal server, The Universal server has it\'s own community which is called the InterVersal Community, If you need help with anything feel free to go to "The Pokemon Help Center" or ask an staff for any guidance. If you like this server please feel free to tell your friends oabout the server!');
+	},
 	/*********************************************************
 	 * Override commands
 	 *********************************************************/
@@ -1503,12 +1556,13 @@ tournamentnote: function(target, room, user){
 			return connection.sendTo(target, "|noinit|joinfailed|The room '" + target + "' could not be joined.");
 		}
 		if (target.toLowerCase() == "lobby") {
-			return connection.sendTo('lobby','|html|<div class="broadcast-gold" border="5"><center><img src="http://i58.tinypic.com/2lj18o6.jpg"></center><br />' +
+			return connection.sendTo('lobby','|html|<div class="broadcast-yellow" border="5"><center><img src="http://i58.tinypic.com/2lj18o6.jpg"></center><br />' +
                                         '<center><b><font size="4">Welcome to Universal Server!</b></font><br>' +       
                                         'Here at our server we call home we have a community of our own. The community offers things like Sports, Casino, Pokemon Help, League, Tiers, and more. What makes this server special you say is what you make of it, Our guestv are the most important people for our server, without you guys it not really a server is it?<br>' +
                                         'Well if you need any help, ask an Staff {Consider that their symbols show as an; Driver (%), Moderator (@), Leader (&), or an Admin (~)<br>' +
                                         'If you need anything or need help with a different server, feel free to pm BeforeMath, Judgmental, Or Judge Joe Brownz.<br>' +
                                         'We hope you have fun while you\'re here at the InterVersal Server! If so, then please be sure to tell your friends about us!<br>' +
+                                        '</u></b></center><br/><center><a href ="https://gist.github.com/E4Arsh/8577715"><b>This Server is hosted By BlakJack</b></a></center><br/><br/> ' +
                                         '<hr width="85%">' +
                                         '<center><a href="http://theinternationserver.weebly.com/"><button class="blackbutton" title="Site"><font color="red"><b>Site</b></a></button>   |   <a href="http://universityis.boards.net/"><button class="blackbutton" title="Forums"><font color="red"><b>Forums</b></a></button></div>');
 		}
@@ -1663,6 +1717,22 @@ tournamentnote: function(target, room, user){
 		this.logModCommand(user.name + " imgdeclared " + target);
 	},
 
+restart: function(target, room, user) {
+                if (!this.can('lockdown')) return false;
+
+                if (!Rooms.global.lockdown) {
+                        return this.sendReply('For safety reasons, /restart can only be used during lockdown.');
+                }
+
+                if (CommandParser.updateServerLock) {
+                        return this.sendReply('Wait for /updateserver to finish before using /kill.');
+                }
+                this.logModCommand(user.name + ' used /restart');
+                var exec = require('child_process').exec;
+                exec('./source/restart.sh');
+                Rooms.global.send('|refresh|');
+        },
+        
 	reload: function (target, room, user) {
 	    if (!this.can('hotpatch')) return false;
 
@@ -1748,7 +1818,6 @@ tournamentnote: function(target, room, user){
        busy: 'away',
        afk: 'away',
        away: function(target, room, user, connection, cmd) {
-            if (!this.can('away')) return false;
             // unicode away message idea by Siiilver
             var t = 'Ⓐⓦⓐⓨ';
             var t2 = 'Away';
@@ -1808,7 +1877,6 @@ user.updateIdentity();
 },
 
 back: function(target, room, user, connection) {
-if (!this.can('away')) return false;
 
 if (user.isAway) {
 if (user.name === user.originalName) {
