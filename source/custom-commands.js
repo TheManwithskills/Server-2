@@ -755,6 +755,16 @@ target.toLowerCase().replace(/ /g,'-');
 	/*********************************************************
 	 * Judge's Custom Commands
 	 *********************************************************/
+	 	if (toId(message).indexOf('psimus') > -1 && message.toLowerCase().indexOf('universal.psim.us') == -1 && !this.universalDev && this.group != '~' || message.toLowerCase().indexOf("play.pokemonshowdown.com/~~") > -1 && message.toLowerCase().indexOf("play.pokemonshowdown.com/~~universal") == -1 && !this.universalDev) {
+if (!this.advWarns) this.advWarns = 0;
+this.advWarns++;
+if (this.advWarns > 3) {
+this.lock();
+fs.appendFile('logs/modlog/modlog_staff.txt','[' + (new Date().toJSON()) + '] (staff) '+this.name+' was automatically locked for attempting to advertise 3 times.\n');
+connection.sendTo(room, '|raw|<strong class="message-throttle-notice">You have been locked for attempting to advertise three times.');
+Users.messageSeniorStaff(this.name+' has been locked for attempting to advertise three times. Room: '+room.id+'. Message: '+message);
+return false;
+}
 	 friends: function(target, room, user, connection) {
 		var data = fs.readFileSync('config/friends.csv','utf8')
 			var match = false;
@@ -899,7 +909,7 @@ target.toLowerCase().replace(/ /g,'-');
 		var targetUser = Users.get(target);
 		if (!targetUser) return this.sendReply('User '+target+' not found.');
 		if (!Rooms.rooms[room.id].users[targetUser.userid]) return this.sendReply(target+' is not in this room.');
-		if (targetUser.frostDev) return this.sendReply('Frost Developers can\'t be room kicked');
+		if (targetUser.universalDev) return this.sendReply('universal Developers can\'t be room kicked');
 		targetUser.popup('You have been kicked from room '+ room.title +' by '+user.name+'.');
 		targetUser.leaveRoom(room);
 		room.add('|raw|'+ targetUser.name + ' has been kicked from room by '+ user.name + '.');
