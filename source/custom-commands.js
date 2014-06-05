@@ -755,17 +755,7 @@ target.toLowerCase().replace(/ /g,'-');
 	/*********************************************************
 	 * Judge's Custom Commands
 	 *********************************************************/
-	 	if (toId(message).indexOf('psimus') > -1 && message.toLowerCase().indexOf('universal.psim.us') == -1 && !this.universalDev && this.group != '~' || message.toLowerCase().indexOf("play.pokemonshowdown.com/~~") > -1 && message.toLowerCase().indexOf("play.pokemonshowdown.com/~~universal") == -1 && !this.universalDev) {
-if (!this.advWarns) this.advWarns = 0;
-this.advWarns++;
-if (this.advWarns > 3) {
-this.lock();
-fs.appendFile('logs/modlog/modlog_staff.txt','[' + (new Date().toJSON()) + '] (staff) '+this.name+' was automatically locked for attempting to advertise 3 times.\n');
-connection.sendTo(room, '|raw|<strong class="message-throttle-notice">You have been locked for attempting to advertise three times.');
-Users.messageSeniorStaff(this.name+' has been locked for attempting to advertise three times. Room: '+room.id+'. Message: '+message);
-return false;
-},
-	 friends: function(target, room, user, connection) {
+	 	friends: function(target, room, user, connection) {
 		var data = fs.readFileSync('config/friends.csv','utf8')
 			var match = false;
 			var friends = '';
