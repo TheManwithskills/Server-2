@@ -78,8 +78,8 @@ var customCommands = {
 		'Follow <a href="https://github.com/CreaturePhil"><u><b>CreaturePhil</b></u></a> on Github for 5 bucks. Once you done so pm an admin. If you don\'t have a Github account' +
 		' you can make on <a href="https://github.com/join"><b><u>here</b></u></a>.');
 	},
-	rules: 'rule',
-	rule: function(target, room, user) {
+	
+	rl: function(target, room, user) {
 		if (!this.canBroadcast()) return false;
 		
 		return this.sendReplyBox('<center><b><u>Rules<u/><b/><br/>' +
