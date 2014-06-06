@@ -95,12 +95,18 @@ var customCommands = {
 		'3. Wait for atleast 5 or more players are in a tour to start it.' +
 		'4. No dq\'ing users cause you assume thier afk' +
 		'5. When the tournament is done, Wait until 5 more mins to start a new one<br/>' +
-		'<center><b><u>Staff Members/><b/><br/>' +
+		'<center><b><u>Staff Members<u/><b/><br/>' +
 		'1. Don\t use commands that take about 3 lines of the chat' +
-		'' +
-		'' +
-		'' +
-		'<center><b>How thing will be done.<b/>');
+		'2. No abusing your authority, If Judge sense\'s abuse you will be automatically demoted' +
+		'3. No promoting users without them buying the ability to have global voice, Judge will take care of the promoting to a staff rank.' +
+		'4. Make sure the chat stays in control' +
+		'If a staff member is inactive or atleast 3 days, they will be demoted by 1 rank, If they abuse their power, they will be demoted by 2 rank\'s.<br/>' +
+		'<center><b><u>How breaking the rules will be handled.<u/><b/><br/>' +
+		'<b><um>1st Offense<um/><b/>: You will be spoken to in public and asked to stop your actions.' +
+		'<b><um>2nd Offense<um/><b/>: You will be kicked from the server. The chat will inform you of this as well as why. Breaking the rules again will result in a ban for length to be determined by  an authorized Staff.' +
+		'<b><um>3rd Offense<um/><b/>: You will be kicked and banned from the server. Not allowed back in until your ban is lifted.' +
+		'The 3rd Offense violations will be reported to an authorized Staff. 
+		'You will then be banned from the chat rooms for a time defined by an authorized Staff. You may also be banned from the Forums to keep you from spamming them with complaints about getting banned. After sufficient time you will be allowed back on to the forums. But not the Chat Rooms. Allowance back into the chat rooms is left to the sole discretion of an authorized Staff.');
 	},
 		return this.sendReplyBox('' +
 	ratingtiers: 'ratingtier',
