@@ -1,195 +1,91 @@
-#header {
-    background: url(http://thecutestblogontheblock.com/wp-content/uploads/2013/02/pinstripe-gray-free-twitter-header.jpg);
+/*Header*/
+#header{
+background:url("http://www.knightclothing.co.za/wp-content/themes/ventura/images/headers/Black-Bokeh.jpg")
 }
-
-.tabbar a.button.cur,.tabbar a.button.cur:hover {
-    color: #FFF;
-    background: #363f47;
-    border-color: #949ba1;
-}
-
-.closebutton,.minimizebutton {
-    color: #e8e8e8;
-}
-
-.closebutton:hover,.minimizebutton:hover {
-    color: #DDDDDD;
-}
-
-.tabbar a.button {
-    border: solid 1px #000;
-}
-
-.icon-user {
-    color: #0c4680!important;
-}
-
-.maintabbarbottom {
-    background: #343d45;
-    border: 1px solid #000;
-}
-
+/*Main BG*/
 body {
-    background-image:url("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQIFEz-7gitLCV4jf9fdsq_NPApuU9HdMoin8heshSDN2tXS8nnsw");
-    background-repeat:no-repeat;background-position:center
-    }
-
-.menugroup .button {
-    background: #111111;
-    border-color: #111111;
-    color: #FFF;
-    font-size: 8pt;
-    opacity: .8;
+background-image:url('http://cache.desktopnexus.com/thumbnails/921252-bigthumbnail.jpg');
+background-repeat:no-repeat;
+background-position:center fixed;
 }
 
-.menugroup .button:hover {
-    background: #001F3F;
-}
 
-.menugroup button.big {
-    font-size: 10pt;
-}
-
-.mainmenufooter a {
-    color: #96969e;
-    font-size: 8pt;
-    text-decoration: none;
-    font-style: italic;
-}
-
-.mainmenufooter a:hover {
-    color: #DDDDDD;
-    text-decoration: none;
-}
-
-.mainmenufooter {
-    color: #D9BADB;
-}
-
-.ps-room.ps-room-light {
-    opacity: .99;
-}
-
-.ps-room {
-    border-left: 2px solid #6F6F6F;
-}
-
-.userlist{
-background:#a7b8b8;
-   color: white;
-}
-
-.userlist li button:hover {
-background: black;
-}
-
-.userlist li{
-border-bottom: 1px solid #1b1b1b;
-}
-
-.chat-log-add {
-    border-top: 2px solid #6F6F6F;
-}
-
-.userlist li em.group {
-    color: #535353;
-}
-
-.userlist li button:hover {
-    background: #D5DADD;
-}
-
-.chat-log {
-position: absolute;
-top: 0;
-left: 0;
-right: 0;
-bottom: 40px;
-font-size: 10pt;
-background: url("http://i.picresize.com/images/2014/06/01/21wZ.png") no-repeat right buttom;
-color: black;
-word-wrap: break-word;
-
-overflow: auto;
-overflow-x: hidden;
--webkit-overflow-scrolling: touch;
-overflow-scrolling: touch;
-}
-
-.message-announce {
-    background: #384059;
-}
-
-.pm-window h3 {
-    background: #282e33;
-    color: #FFF;
-    border: 1px solid #000;
-    opacity: .8;
-}
-
-.pm-window h3:hover {
-    color: #DDDDDD;
-}
-
-.pm-window h3 small {
-    color: #FFF;
-}
-
+/*PM Box*/
 .pm-log {
 min-height: 100px;
 max-height: 300px;
-background: #98dae2;
-color: #FFFFFF;
+background: url(https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRr2X0G2cy8DtrBg4iu9yrCyMeyuBiAiu_NwXvuwijoSbcKybjQCg) center top scroll;
+color: #ffffff;
 word-wrap: break-word;
-border: 1px solid #AAAAAA;
-border-top: 0;
-border-bottom: 0;
-
 overflow: auto;
--webkit-overflow-scrolling: touch;
-overflow-scrolling: touch;
+border: 0px solid #000000;
+border-top-left-radius: 0px;
+border-top-right-radius: 0px;
 }
-
+.pm-window h3 {
+    background: #181616;
+   border: 2px;
+}
+.pm-window.focused h3, .pm-window.focused h3:hover {
+background: #cbc8c8;
+border: 2px;
+}
 .pm-log-add {
-    background: #2c3138;
-    border: 1px solid #000;
+        background: #404040;
+   border: 2px;
+     border-color: #000;
 }
 
-.pm-window.focused h3,.pm-window.focused h3:hover {
-    color: #FFF;
-    background: #d1d100;
+/*Chat*/
+.chat-log {
+     font-size: 10pt;
+     background: url("http://i.imgur.com/q1Pkcrk.png") repeat;
+     opacity: 1;
+     border-left: 1px solid rgb(95, 200, 255);
+     overflow: auto;
 }
 
-.broadcast-blue {
-    background-color: #142E50;
-    border: 2px solid #fff;
+
+.userbar{
+border:1px solid #b6b6b6;
+padding:5px;
+background: #404040;
+margin-top:-5px
 }
 
-.broadcast-red {
-    background-color: #520B0B;
-    border: 2px solid #fff;
+/*"Look for a battle" buttons (when hovered over)*/
+.menugroup .button:hover {
+    background: #3b3b3b;
+   color: #cccccc
 }
 
-.broadcast-green {
-    background-color: #5b9f5b;
-    border: 2px solid #fff;
+/*"Look for a battle" buttons*/
+.menugroup .button {
+     background: #cccccc;
+   color: #3b3b3b
 }
 
-.broadcast-yellow {
-    background-color: #d8e78d;
-    border: 2px solid #fff;
+
+.userlist {
+  background: #3b0467;
+  color: #fff;
+  border: 1px solid;
 }
 
-.ps-popup {
-    background: #D8D8D8;
-    border: 1px solid #000;
+.tabbar a.button.cur,.tabbar a.button.cur:hover {
+color: #3b3b3b;
+text-shadow:none;
+   border: 2px;
+background: #cccccc;
+cursor: default;
 }
 
-.ps-popup a {
-    color: #575757;
-    text-decoration: none;
+.tabbar a.button {
+background: #3b3b3b;
+color: #cccccc;
 }
 
-.ps-popup a:hover {
-    color: #b7c7d7;
-}
+.char {
+  background: url(http://fc09.deviantart.net/fs71/f/2012/275/7/7/black_and_grey_stripe_pattern_by_wiizkiid-d5gm6uv.png) center;
+  color: #eff;
+  }
