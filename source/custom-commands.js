@@ -78,7 +78,31 @@ var customCommands = {
 		'Follow <a href="https://github.com/CreaturePhil"><u><b>CreaturePhil</b></u></a> on Github for 5 bucks. Once you done so pm an admin. If you don\'t have a Github account' +
 		' you can make on <a href="https://github.com/join"><b><u>here</b></u></a>.');
 	},
-
+	rules: 'rule',
+	rule: function(target, room, user) {
+		if (!this.canBroadcast()) return false;
+		
+		return this.sendReplyBox('<center><b><u>Rules<u/><b/><br/>' +
+		'<center><b><u>General<u/><b/><br/>' +
+		'1. Respect others as you would do for yourself.' +
+		'2. Spam or cursing will NOT be tolerated. ' +
+		'3. If you weren\'t heard or no one replied to your comment, don\'t keep saying your statement.' +
+		'4. No <b>ADVERTISING<b/> of any kind.' +
+		'5. Have fun, following the rules, there is not to many of them, so don\'t make a dramatic scene.<br/>' +
+		'<center><b><u>Tournaments<u/><b/><br/>' +
+		'1. Only make a Tournaments after the command such as /tierpoll was used.' +
+		'2. No ending a tour of anykind, Even if the tour was a mistake.' +
+		'3. Wait for atleast 5 or more players are in a tour to start it.' +
+		'4. No dq\'ing users cause you assume thier afk' +
+		'5. When the tournament is done, Wait until 5 more mins to start a new one<br/>' +
+		'<center><b><u>Staff Members/><b/><br/>' +
+		'1. Don\t use commands that take about 3 lines of the chat' +
+		'' +
+		'' +
+		'' +
+		'<center><b>How thing will be done.<b/>');
+	},
+		return this.sendReplyBox('' +
 	ratingtiers: 'ratingtier',
 	ratingtier: function(target, room, user) {
 		if (!this.canBroadcast()) return false;
