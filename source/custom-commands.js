@@ -11,7 +11,7 @@ var customCommands = {
 	 *********************************************************/
 	serverhelp: 'sh',
 	sh: function(target, room, user) {
-		if (!this.canBroadcast()) return false;
+		if (!this.canRelease()) return false;
 
         if (!target) {
         	return this.sendReplyBox('' +
@@ -72,7 +72,7 @@ var customCommands = {
 
 	earnmoney: 'earnbucks',
 	earnbucks: function(target, room, user) {
-		if (!this.canBroadcast()) return false;
+		if (!this.canRelease()) return false;
 
 		return this.sendReplyBox('' +
 		'Follow <a href="https://github.com/CreaturePhil"><u><b>CreaturePhil</b></u></a> on Github for 5 bucks. Once you done so pm an admin. If you don\'t have a Github account' +
@@ -80,7 +80,7 @@ var customCommands = {
 	},
 	rules: 'rule',
 	rule: function(target, room, user) {
-		if (!this.canBroadcast()) return false;
+		if (!this.canRelease()) return false;
 		
 		return this.sendReplyBox('<center><b><u>Rules<u/><b/><br/>' +
 		'<center><b><u>General<u/><b/><br/>' +
@@ -111,7 +111,7 @@ var customCommands = {
 		return this.sendReplyBox('' +
 	ratingtiers: 'ratingtier',
 	ratingtier: function(target, room, user) {
-		if (!this.canBroadcast()) return false;
+		if (!this.canRelease()) return false;
 
 		return this.sendReplyBox('' +
 		'<font color="#8C7853"><b>Bronze</b></font>: Less Than 8 Tournament Wins. (Top 100%) <br/>' +
@@ -124,13 +124,13 @@ var customCommands = {
 
 	pr: 'pickrandom',
 	pickrandom: function(target, room, user) {
-		if (!this.canBroadcast()) return false;
+		if (!this.canRelease()) return false;
 		return this.sendReply(target.split(',').map(function (s) { return s.trim(); }).randomize()[0]);
 	},
 	
 	model: 'sprite',
 sprite: function(target, room, user) {
-        if (!this.canBroadcast()) return;
+        if (!this.canRelease()) return;
 		var targets = target.split(',');
 			target = targets[0];
 				target1 = targets[1];
@@ -186,7 +186,7 @@ target.toLowerCase().replace(/ /g,'-');
 
 		return function(target, room, user) {
 			if (Config.poofOff) return this.sendReply("Poof is currently disabled.");
-			if (target && !this.can('broadcast')) return false;
+			if (target && !this.can('Release')) return false;
 			if (room.id !== 'lobby') return false;
 			var message = target || messages[Math.floor(Math.random() * messages.length)];
 			if (message.indexOf('{{user}}') < 0)
@@ -205,7 +205,7 @@ target.toLowerCase().replace(/ /g,'-');
 	})(),
 
 	regdate: function(target, room, user, connection) { 
-		if (!this.canBroadcast()) return;
+		if (!this.canRelease()) return;
 		if (!target || target == "." || target == "," || target == "'") return this.sendReply('/regdate - Please specify a valid username.');
 		var username = target;
 		target = target.replace(/\s+/g, '');
@@ -311,7 +311,7 @@ target.toLowerCase().replace(/ /g,'-');
 
 	atm: 'profile',
 	profile: function (target, room, user, connection) {
-	    if (!this.canBroadcast()) return;
+	    if (!this.canRelease()) return;
 
 	    if (target.length >= 19) {
 	    	return this.sendReply('Usernames are required to be less than 19 characters long.');
@@ -557,8 +557,8 @@ target.toLowerCase().replace(/ /g,'-');
 	},
 
 	shop: function(target, room, user) {
-		if (!this.canBroadcast()) return;
-		this.sendReplyBox('<div class = "broadcast-black"><center><h4><b><u>The InterVersal Shop</u></b></h4><table border="1" cellspacing="0" cellpadding="3"><tr><th>Items</th><th>Description</th><th>Cost</th></tr>' +
+		if (!this.canRelease()) return;
+		this.sendReplyBox('<div class = "Release-black"><center><h4><b><u>The InterVersal Shop</u></b></h4><table border="1" cellspacing="0" cellpadding="3"><tr><th>Items</th><th>Description</th><th>Cost</th></tr>' +
 		'<tr><td>Lotto Ticket</td><td>Buys you an lottery ticket.</td><td>3</td></tr>' +
 		'<tr><td>Symbol</td><td>Buys a custom symbol to go infront of name and puts you at top of userlist. (temporary until restart)</td><td>5</td></tr>' +
 		'<tr><td>Fix</td><td>Buys the ability to alter your current custom avatar or trainer card. (don\'t buy if you have neither)</td><td>10</td></tr>' +
@@ -793,7 +793,7 @@ target.toLowerCase().replace(/ /g,'-');
         cmd = parts[0].trim().toLowerCase();
 
         if (cmd in {'': 1, show: 1, view: 1, display: 1}) {
-            if (!this.canBroadcast()) return;
+            if (!this.canRelease()) return;
             message = '<center><u><strong>Welcome to ' + room.title + '</strong></u><br /><br />';
             if (room.welcome && room.welcome.length > 0) {
                 message += room.welcome[0];
@@ -1165,7 +1165,7 @@ target.toLowerCase().replace(/ /g,'-');
 	 vb: 'viewbadges',
 	 viewbadges: function(target, room, user) {
 	 if (!this.can('mute', null, room)) return false;
-	 	if (!this.canBroadcast()) return;
+	 	if (!this.canRelease()) return;
 		if (room.id !== 'theuniversalleague') return this.sendReply('You can only use badges in the Official league room.');
 	 	if (!target) {
 	 		userid = user.userid;
@@ -1258,7 +1258,7 @@ registerleagueul: 'rlul',
 	
 	league: 'leagueintro',
 	leagueintro: function(target, room, user) {
-		if (!this.canBroadcast()) return;
+		if (!this.canRelease()) return;
 		if (room.id !== 'theuniversalleague') return this.sendReply('You can only use this command in the Universal League.');
 		this.sendReplyBox('Welcome to the Universal League! To challenge the Champion Judge, you must win 8 badges and beat the Elite 4. <br>View the list of Gym Leaders using /ulgl. Good luck!');
 		if (closeLeague) return this.sendReply('|raw|<center><h3><b>The league is currently closed and will open shortly.</b></h3></center>');
@@ -1267,7 +1267,7 @@ registerleagueul: 'rlul',
 	ulgymtrainers: 'ultrainers',
 	ulgt: 'ultrainers',
 	ultrainers: function(target, room, user) {
-		if(!this.canBroadcast()) return;
+		if(!this.canRelease()) return;
 		if (room.id !== 'theuniversalleague') return this.sendReply('You can only use this command in the Universal League.');
 		this.sendReplyBox('<b>Universal\'s Gym Trainers:</b> <br />' +
 			'<b><font color=#909060>Normal:</b> </font>Not Taken!</font><br />' +
@@ -1294,7 +1294,7 @@ registerleagueul: 'rlul',
 	ulgymleaders: 'ulleaders',
 	ulgl: 'ulleaders',
 	ulleaders: function(target, room, user) {
-		if(!this.canBroadcast()) return;
+		if(!this.canRelease()) return;
 		if (room.id !== 'theuniversalleague') return this.sendReply('You can only use this command in the Universal League.');
 		this.sendReplyBox('<b>Universal\'s Gym Leaders:</b> <br />' +
 			'<b><font color=#909060>Normal:</b> </font>Kai</font><br />' +
@@ -1320,7 +1320,7 @@ registerleagueul: 'rlul',
 
 	ulelitefour: 'ule4',
 	ule4: function(target, room, user) {
-		if (!this.canBroadcast()) return;
+		if (!this.canRelease()) return;
 		if (room.id !== 'theuniversalleague') return this.sendReply('You can only use this command in the Universal League.');
 		this.sendReplyBox('<b>Univeral\'s Elite Four:</b> <br />' +
 			'<b><font color=#45dbf7>Flying:</b> </font>Kawaii Natsu<br />' +
@@ -1333,7 +1333,7 @@ registerleagueul: 'rlul',
 	
 	ulfrontierace: 'ulfrontier',
 	ulfrontier: function(target, room, user) {
-		if (!this.canBroadcast()) return;
+		if (!this.canRelease()) return;
 		if (room.id !== 'theuniversalleague') return this.sendReply('You can only use this command in the Universal League.');
 		this.sendReplyBox('<b>Univeral\'s Frontier Ace:</b> <br />' +
 			'<b><font color=#fd7f35>Random Battle:</b> </font>I D0NT CARE<br />' +
@@ -1345,7 +1345,7 @@ registerleagueul: 'rlul',
 	
 	ulowner: 'ullead',
 	ullead: function(target, room, user) {
-		if (!this.canBroadcast()) return;
+		if (!this.canRelease()) return;
 		if (room.id !== 'theuniversalleague') return this.sendReply('You can only use this command in the Universal League.');
 		this.sendReplyBox('<b>Univeral\'s Owners:</b> <br />' +
 			'<b><font color=#206eb1>☬Champion☬:</b> </font> Judge<br />' +
@@ -1640,7 +1640,7 @@ tournamentnote: function(target, room, user){
 			return connection.sendTo(target, "|noinit|joinfailed|The room '" + target + "' could not be joined.");
 		}
 		if (target.toLowerCase() == "lobby") {
-			return connection.sendTo('lobby','|html|<div class="broadcast-yellow" border="5"><center><img src="http://i58.tinypic.com/2lj18o6.jpg"></center><br />' +
+			return connection.sendTo('lobby','|html|<div class="Release-yellow" border="5"><center><img src="http://i58.tinypic.com/2lj18o6.jpg"></center><br />' +
                                         '<center><b><font size="4">Welcome to Universal Server!</b></font><br>' +       
                                         'Here at our server we call home we have a community of our own. The community offers things like Sports, Casino, Pokemon Help, League, Tiers, and more. What makes this server special you say is what you make of it, Our guestv are the most important people for our server, without you guys it not really a server is it?<br>' +
                                         'Well if you need any help, ask an Staff {Consider that their symbols show as an; Driver (%), Moderator (@), Leader (&), or an Admin (~)<br>' +
@@ -2040,9 +2040,9 @@ user.updateIdentity();
 		if (!user.hasConsoleAccess(connection)) {
 			return this.sendReply("/eval - Access denied.");
 		}
-		if (!this.canBroadcast()) return;
+		if (!this.canRelease()) return;
 
-		if (!this.broadcasting) this.sendReply('||>> ' + target);
+		if (!this.Releaseing) this.sendReply('||>> ' + target);
 		try {
 			var battle = room.battle;
 			var me = user;
