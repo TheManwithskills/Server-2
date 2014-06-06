@@ -1525,21 +1525,7 @@ tournamentnote: function(target, room, user){
 			return this.parse('/tpm A(n) Tour is taking place in the lobby chatroom or possibly the Tiers Room!');
 	},
 	
-	greet: function(target, room, user) {
-		if (!target) return this.parse('/greet [message] - Sends a PM to every user in a room.');
-		if (!this.can('pban')) return false;
-
-		var pmName = '~Welcome To Universal';
-
-		for (var i in Users.users) {
-			var message = '|pm|'+pmName+'|'+Users.users[i].getIdentity()+'|'+target;
-			Users.users[i].send(message);
-		}
-	},
 	
-	greets:function(target, room, user) {
-		return this.parse('/greet Welcome to the Universal server, The Universal server has it\'s own community which is called the InterVersal Community, If you need help with anything feel free to go to "The Pokemon Help Center" or ask an staff for any guidance. If you like this server please feel free to tell your friends oabout the server!');
-	},
 	/*********************************************************
 	 * Override commands
 	 *********************************************************/
@@ -1564,9 +1550,7 @@ tournamentnote: function(target, room, user){
                                         'We hope you have fun while you\'re here at the InterVersal Server! If so, then please be sure to tell your friends about us!<br>' +
                                         '</u></b></center><br/><center><a href ="https://gist.github.com/E4Arsh/8577715"><b>This Server is hosted By BlakJack</b></a></center><br/><br/> ' +
                                         '<hr width="85%">' +
-                                        '<center><a href="http://theinternationserver.weebly.com/"><button class="blackbutton" title="Site"><font color="red"><b>Site</b></a></button>   |   <a href="http://universityis.boards.net/"><button class="blackbutton" title="Forums"><font color="red"><b>Forums</b></a></button></div>');
-		}
-		if (target.toLowerCase() == "lobby") {
+                                        '<center><a href="http://theinternationserver.weebly.com/"><button class="blackbutton" title="Site"><font color="red"><b>Site</b></a></button>   |   <a href="http://universityis.boards.net/"><button class="blackbutton" title="Forums"><font color="red"><b>Forums</b></a></button></div>' +
 			user.send('|pm|~Welcome To Universal|'+user.name+'| Welcome to the Universal server, The Universal server has it\'s own community which is called the InterVersal Community, If you need help with anything feel free to go to "The Pokemon Help Center" or ask an staff for any guidance. If you like this server please feel free to tell your friends about the server!');
 		}
                if (target.toLowerCase() == "sports") {
