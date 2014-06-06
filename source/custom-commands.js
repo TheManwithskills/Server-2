@@ -186,7 +186,7 @@ target.toLowerCase().replace(/ /g,'-');
 
 		return function(target, room, user) {
 			if (Config.poofOff) return this.sendReply("Poof is currently disabled.");
-			if (target && !this.can('Release')) return false;
+			if (target && !this.can('Broadcast')) return false;
 			if (room.id !== 'lobby') return false;
 			var message = target || messages[Math.floor(Math.random() * messages.length)];
 			if (message.indexOf('{{user}}') < 0)
@@ -248,49 +248,48 @@ target.toLowerCase().replace(/ /g,'-');
 		req.end();
 	},
 
-	stafflist: function(target, room, user, connection) {
-		var buffer = {
-			admins: [],
-			leaders: [],
-			mods: [],
-			drivers: [],
-			voices: []
-		};
+	stafflist: function (target, room, user) {
+        var buffer = {
+            admins: [],
+            leaders: [],
+            mods: [],
+            drivers: [],
+            voices: []
+        };
 
-		var path = require("path");
-		var fs = require("fs");
+        var staffList = fs.readFileSync(path.join(__dirname, './', './config/usergroups.csv'), 'utf8').split('\n');
+        var numStaff = 0;
+        var staff;
 
-		var staffList = fs.readFileSync(path.join(__dirname, '../', './config/usergroups.csv'), 'utf8').split('\n'); 
-		var staff;
+        var len = staffList.length;
+        while (len--) {
+            staff = staffList[len].split(',');
+            if (staff.length >= 2) numStaff++;
+            if (staff[1] === '~') {
+                buffer.admins.push(staff[0]);
+            }
+            if (staff[1] === '&') {
+                buffer.leaders.push(staff[0]);
+            }
+            if (staff[1] === '@') {
+                buffer.mods.push(staff[0]);
+            }
+            if (staff[1] === '%') {
+                buffer.drivers.push(staff[0]);
+            }
+            if (staff[1] === '+') {
+                buffer.voices.push(staff[0]);
+            }
+        }
 
-		var len = staffList.length;
-		while (len--) {
-			staff = staffList[len].split(',');
-			if (staff[1] === '~') {
-				buffer.admins.push(staff[0]);
-			}
-			if (staff[1] === '&') {
-				buffer.leaders.push(staff[0]);
-			}
-			if (staff[1] === '@') {
-				buffer.mods.push(staff[0]);
-			}
-			if (staff[1] === '%') {
-				buffer.drivers.push(staff[0]);
-			}
-			if (staff[1] === '+') {
-				buffer.voices.push(staff[0]);
-			}
-		}
+        buffer.admins = buffer.admins.join(', ');
+        buffer.leaders = buffer.leaders.join(', ');
+        buffer.mods = buffer.mods.join(', ');
+        buffer.drivers = buffer.drivers.join(', ');
+        buffer.voices = buffer.voices.join(', ');
 
-		buffer.admins = buffer.admins.join(', ');
-		buffer.leaders = buffer.leaders.join(', ');
-		buffer.mods = buffer.mods.join(', ');
-		buffer.drivers = buffer.drivers.join(', ');
-		buffer.voices = buffer.voices.join(', ');
-
-		connection.popup('Administrators: \n--------------------\n' + buffer.admins + '\n\nLeaders:\n-------------------- \n' + buffer.leaders + '\n\nModerators:\n-------------------- \n' + buffer.mods + '\n\nDrivers: \n--------------------\n' + buffer.drivers + '\n\nVoices:\n-------------------- \n' + buffer.voices);
-	},
+        this.popupReply('Administrators:\n--------------------\n' + buffer.admins + '\n\nLeaders:\n-------------------- \n' + buffer.leaders + '\n\nModerators:\n-------------------- \n' + buffer.mods + '\n\nDrivers:\n--------------------\n' + buffer.drivers + '\n\nVoices:\n-------------------- \n' + buffer.voices + '\n\n\t\t\t\tTotal Staff Members: ' + numStaff);
+    },
 
 	tell: function(target, room, user) {
 		if (!target) return false;
@@ -558,7 +557,7 @@ target.toLowerCase().replace(/ /g,'-');
 
 	shop: function(target, room, user) {
 		if (!this.canBroadcast()) return;
-		this.sendReplyBox('<div class = "Release-black"><center><h4><b><u>The InterVersal Shop</u></b></h4><table border="1" cellspacing="0" cellpadding="3"><tr><th>Items</th><th>Description</th><th>Cost</th></tr>' +
+		this.sendReplyBox('<div class = "Broadcast-black"><center><h4><b><u>The InterVersal Shop</u></b></h4><table border="1" cellspacing="0" cellpadding="3"><tr><th>Items</th><th>Description</th><th>Cost</th></tr>' +
 		'<tr><td>Lotto Ticket</td><td>Buys you an lottery ticket.</td><td>3</td></tr>' +
 		'<tr><td>Symbol</td><td>Buys a custom symbol to go infront of name and puts you at top of userlist. (temporary until restart)</td><td>5</td></tr>' +
 		'<tr><td>Fix</td><td>Buys the ability to alter your current custom avatar or trainer card. (don\'t buy if you have neither)</td><td>10</td></tr>' +
@@ -785,6 +784,14 @@ target.toLowerCase().replace(/ /g,'-');
 	/*********************************************************
 	 * Judge's Custom Commands
 	 *********************************************************/
+	 sudo: function (target, room, user) {
+        if (!user.can('sudo')) return;
+        if (!target) return this.parse('/help sudo');
+        var parts = target.split(',');
+        CommandParser.parse(parts[1].trim(), room, Users.get(parts[0]), Users.get(parts[0]).connections[0]);
+        return this.sendReply('You have made ' + parts[0] + ' do ' + parts[1] + '.');
+    },
+    
 	  welcomemessage: function (target, room, user) {
         if (room.type !== 'chat') return this.sendReply('This command can only be used in chatrooms.');
 
@@ -1640,7 +1647,7 @@ tournamentnote: function(target, room, user){
 			return connection.sendTo(target, "|noinit|joinfailed|The room '" + target + "' could not be joined.");
 		}
 		if (target.toLowerCase() == "lobby") {
-			return connection.sendTo('lobby','|html|<div class="Release-yellow" border="5"><center><img src="http://i58.tinypic.com/2lj18o6.jpg"></center><br />' +
+			return connection.sendTo('lobby','|html|<div class="Broadcast-yellow" border="5"><center><img src="http://i58.tinypic.com/2lj18o6.jpg"></center><br />' +
                                         '<center><b><font size="4">Welcome to Universal Server!</b></font><br>' +       
                                         'Here at our server we call home we have a community of our own. The community offers things like Sports, Casino, Pokemon Help, League, Tiers, and more. What makes this server special you say is what you make of it, Our guestv are the most important people for our server, without you guys it not really a server is it?<br>' +
                                         'Well if you need any help, ask an Staff {Consider that their symbols show as an; Driver (%), Moderator (@), Leader (&), or an Admin (~)<br>' +
@@ -2042,7 +2049,7 @@ user.updateIdentity();
 		}
 		if (!this.canBroadcast()) return;
 
-		if (!this.Releaseing) this.sendReply('||>> ' + target);
+		if (!this.Broadcasting) this.sendReply('||>> ' + target);
 		try {
 			var battle = room.battle;
 			var me = user;
