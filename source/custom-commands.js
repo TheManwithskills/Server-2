@@ -784,6 +784,37 @@ target.toLowerCase().replace(/ /g,'-');
 	/*********************************************************
 	 * Judge's Custom Commands
 	 *********************************************************/
+	 	setmotd: 'motd',
+motd: function (target, room, user) {
+if (!this.can('pban')) return false;
+if (!target || target.indexOf(',') == -1) {
+return this.sendReply('The proper syntax for this command is: /motd [message], [interval (minutes)]');
+}
+if (isMotd == true) {
+clearInterval(motd);
+}
+targets = target.split(',');
+message = targets[0];
+time = Number(targets[1]);
+if (isNaN(time)) {
+return this.sendReply('Make sure the time is just the number, and not any words.');
+}
+motd = setInterval(function() {Rooms.rooms.lobby.add('|raw|<div class = "infobox"><b>Message of the Day:</b><br />'+message)}, time * 60 * 1000);
+isMotd = true;
+this.logModCommand(user.name+' set the message of the day to: '+message+' for every '+time+' minutes.');
+return this.sendReply('The message of the day was set to "'+message+'" and it will be displayed every '+time+' minutes.');
+},
+
+clearmotd: 'cmotd',
+cmotd: function (target, room, user) {
+if (!this.can('pban')) return false;
+if (isMotd == false) {
+return this.sendReply('There is no motd right now.');
+}
+clearInterval(motd);
+this.logModCommand(user.name+' cleared the message of the day.');
+return this.sendReply('You cleared the message of the day.');
+},
 	 sudo: function (target, room, user) {
         if (!user.can('sudo')) return;
         if (!target) return this.parse('/help sudo');
