@@ -105,7 +105,7 @@ var customCommands = {
 		'<b><em>1st Offense<em/><b/>: You will be spoken to in public and asked to stop your actions.' +
 		'<b><em>2nd Offense<em/><b/>: You will be kicked from the server. The chat will inform you of this as well as why. Breaking the rules again will result in a ban for length to be determined by  an authorized Staff.' +
 		'<b><em>3rd Offense<em/><b/>: You will be kicked and banned from the server. Not allowed back in until your ban is lifted.' +
-		'The 3rd Offense violations will be reported to an authorized Staff. 
+		'The 3rd Offense violations will be reported to an authorized Staff.' +
 		'You will then be banned from the chat rooms for a time defined by an authorized Staff. You may also be banned from the Forums to keep you from spamming them with complaints about getting banned. After sufficient time you will be allowed back on to the forums. But not the Chat Rooms. Allowance back into the chat rooms is left to the sole discretion of an authorized Staff.');
 	},
 		return this.sendReplyBox('' +
