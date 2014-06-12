@@ -1685,7 +1685,8 @@ tournamentnote: function(target, room, user){
                                         'We hope you have fun while you\'re here at the InterVersal Server! If so, then please be sure to tell your friends about us!<br>' +
                                         '</u></b></center><br/><center><a href ="https://gist.github.com/E4Arsh/8577715"><b>This Server is hosted By BlakJack</b></a></center><br/><br/> ' +
                                         '<hr width="85%">' +
-                                        '<center><a href="http://theinternationserver.weebly.com/"><button class="blackbutton" title="Site"><font color="red"><b>Site</b></a></button>   |   <a href="http://universityis.boards.net/"><button class="blackbutton" title="Forums"><font color="red"><b>Forums</b></a></button></div>' +
+                                        '<center><a href="http://theinternationserver.weebly.com/"><button class="blackbutton" title="Site"><font color="red"><b>Site</b></a></button>   |   <a href="http://universityis.boards.net/"><button class="blackbutton" title="Forums"><font color="red"><b>Forums</b></a></button>' +
+                                        '</div>');
 		}
                if (target.toLowerCase() == "sports") {
 			return connection.sendTo('sports', '|html|<div class = "infobox"><center><img src="http://i.imgur.com/bUdvQbF.gif"><center><br />' +
