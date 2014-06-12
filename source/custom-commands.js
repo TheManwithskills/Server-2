@@ -108,7 +108,6 @@ var customCommands = {
 		'The 3rd Offense violations will be reported to an authorized Staff.' +
 		'You will then be banned from the chat rooms for a time defined by an authorized Staff. You may also be banned from the Forums to keep you from spamming them with complaints about getting banned. After sufficient time you will be allowed back on to the forums. But not the Chat Rooms. Allowance back into the chat rooms is left to the sole discretion of an authorized Staff.');
 	},
-		return this.sendReplyBox('' +
 	ratingtiers: 'ratingtier',
 	ratingtier: function(target, room, user) {
 		if (!this.canBroadcast()) return false;
