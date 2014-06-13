@@ -82,8 +82,8 @@ var customCommands = {
 	rl: function(target, room, user) {
 		if (!this.canBroadcast()) return false;
 		
-		return this.sendReplyBox('<center><b><u>Rules<u/><b/><br/>' +
-		'<center><b><u>General<u/><b/><br/>' +
+		return this.sendReplyBox('<center>Rules<u/><b/><br/>' +
+		'<center>General<u/><b/><br/>' +
 		'1. Respect others as you would do for yourself.' +
 		'2. Spam or cursing will NOT be tolerated. ' +
 		'3. If you weren\'t heard or no one replied to your comment, don\'t keep saying your statement.' +
