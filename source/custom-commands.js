@@ -563,7 +563,6 @@ target.toLowerCase().replace(/ /g,'-');
 		'<tr><td>Poof</td><td>Buys the ability to add a custom poof.</td><td>15</td></tr>' +
 		'<tr><td>Custom</td><td>Buys a custom avatar to be applied to your name. (you supply)</td><td>20</td></tr>' +
 		'<tr><td>Animated</td><td>Buys an animated avatar to be applied to your name. (you supply)</td><td>25</td></tr>' +
-		'<tr><td>Trainer</td><td>Buys a trainer card which shows information through a command such as <i>/beforemath</i>.</td><td>30</td></tr>' +
 		'<tr><td>Room</td><td>Buys a chatroom for you to own. (within reason, can be refused)</td><td>50</td></tr>' +
 		'<tr><td>Voice</td><td>Buys a promotion to global voice.</td><td>100</td></tr>' +
 		'<tr><td>Player</td><td>Buys a promotion to room player of any room you want.</td><td>250</td></tr>' +
@@ -663,17 +662,6 @@ target.toLowerCase().replace(/ /g,'-');
 				return this.sendReply('You do not have enough bucks for this. You need ' + (price - user.money) + ' more bucks to buy ' + target + '.');
 			}
 		}
-		if (target === 'trainer') {
-			price = 30;
-			if (price <= user.money) {
-				user.money = user.money - price;
-				this.sendReply('You have purchased a trainer card. You need to message an admin capable of adding this.');
-				this.add(user.name + ' has purchased a trainer card.');
-				fs.appendFile('logs/transactions.log','\n'+Date()+': '+user.name+' has bought a ' + target + ' for ' + price + ' bucks. ' + user.name + ' now has ' + user.money + ' bucks' + '.');
-			} else {
-				return this.sendReply('You do not have enough bucks for this. You need ' + (price - user.money) + ' more bucks to buy ' + target + '.');
-			}
-		}
 		if (target === 'room') {
 			price = 120;
 			if (price <= user.money) {
@@ -751,19 +739,6 @@ target.toLowerCase().replace(/ /g,'-');
 		user.hasCustomSymbol = false;
 		user.updateIdentity();
 		this.sendReply('Your symbol has been reset.');
-	},
-	
-	lottery: function(target, room, user) {
-		if(!user.canLottery) return this.sendReply('You need to buy this item from the shop to use.');
-		if(!target || target.length > 1) return this.sendReply('|raw|/lotto to get your lottery ticket.');
-		user.canLottery = false;
-		user.hasLottery = true;
-	},
-
-	savelottery: function(target, room, user) {
-		if (!user.hasLottery) return this.sendReply('You don\'t have a Lottery ticket!');
-		user.hasLottery = false;
-		this.sendReply('Your lottery ticket has been saved.');
 	},
 
 	/*********************************************************
@@ -1082,11 +1057,6 @@ return this.sendReply('You cleared the message of the day.');
                                 }
                         }
                 },
-                
-                tierpoll: 'tiervote',
-	tiervote: function(target, room, user){
-		return this.parse('/poll Tournament Tier?, randombattle, cc1v1, 1v1, gen51v1, uu, gen5uu, nu, ru, lc, gen5lc, cap, ou, gen5ou, ou monotype, gen5mono, balanced hackmons, hackmons, ubers, doubles, gen5doubles, challenge cup, perseverance, seasonal, inverse');
-	},
 	
 	givebadge: function(target, room, user) {
 	if (!this.can('mute', null, room)) return false;
