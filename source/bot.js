@@ -5,7 +5,7 @@
  */
 
 // Bot's Name
-global.botName = 'InterVersal';
+global.botName = 'Bott';
 
 var joinAllRooms = true;
 if (joinAllRooms === false) {
