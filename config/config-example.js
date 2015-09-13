@@ -215,138 +215,99 @@ exports.appealUri = '';
 //     - staff: Indicates a staff member.
 //     - timer: Ability to forcibly start and stop the inactive timer in battle rooms with the /timer command.
 //     - warn: /warn command.
-exports.mutedSymbol = '!';
-exports.lockedSymbol = '\u203d';
-exports.groups = {
-	global: {' ': 1, '+': 1,'✯': 1, '✡': 1, '☭': 1, '%': 1, '@': 1, '&': 1, '~': 1},
-	chatRoom: {' ': 1, '+': 1, '%': 1, '@': 1, '#': 1},
-	battleRoom: {' ': 1, '+': 1, '\u2605': 1},
-
-	default: {
-		global: ' ',
-		chatRoom: ' ',
-		battleRoom: ' '
+exports.grouplist = [
+	{
+		symbol: '~',
+		id: "admin",
+		name: "Administrator",
+		root: true,
+		globalonly: true
 	},
-
-	byRank: [' ', '+','✯', '✡', '☭', '%', '@', '\u2605', '#', '&', '~'],
-	bySymbol: {
-		'~': {
-			id: 'admin',
-			name: "Administrator",
-			description: "They can do anything, like change what this message says",
-			root: true
-		},
-		'&': {
-			id: 'leader',
-			name: "Leader",
-			description: "They can promote to moderator and force ties",
-			inherit: '@',
-			jurisdiction: '@u',
-			banword: true,
-			declare: true,
-			disableladder: true,
-			forcewin: true,
-			modchatall: true,
-			potd: true,
-			promote: 'u',
-			rangeban: true
-		},
-		'#': {
-			id: 'owner',
-			name: "Owner",
-			description: "They are administrators of the room and can almost totally control it",
-			inherit: '@',
-			jurisdiction: 'u',
-			declare: true,
-			modchatall: true,
-			privateroom: true,
-			roomdesc: true,
-			roompromote: 'u'
-		},
-		'\u2605': {
-			id: 'player',
-			name: "Player",
-			description: "Only in battles, they are the players that are battling",
-			inherit: '+',
-			modchat: true,
-			privateroom: true,
-			roompromote: 'u'
-		},
-		'@': {
-			id: 'mod',
-			name: "Moderator",
-			description: "They can ban users and set modchat",
-			inherit: '%',
-			jurisdiction: 'u',
-			alts: '@u',
-			ban: true,
-			forcerename: true,
-			ip: true,
-			modchat: true,
-			roompromote: '+ ',
-			scavengers: true
-		},
-		'%': {
-			id: 'driver',
-			name: "Driver",
-			description: "They can mute. Global % can also lock and check users for alts",
-			inherit: '+',
-			jurisdiction: 'u',
-			alts: '%u',
-			announce: true,
-			bypassblocks: 'u%@&~',
-			forcerename: true,
-			kick: true,
-			lock: true,
-			mute: true,
-			redirect: true,
-			staff: true,
-			timer: true,
-			warn: true
-		},
-		'☭': {
-                        id: 'donor',
-                        name: "Donor",
-                        description: "They have bought this rank using real money ($3)",
-                        inherit: '✡',
-                },
-                '✡': {
-                        id: 'trainer',
-                        name: "Trainer",
-                        description: "They have bought this rank using real money ($2)",
-                        inherit: '✯',
-                },
-                '✯': {
-                        id: 'rookie',
-                        name: "Rookie",
-                        description: "They have bought this rank using real money ($1)",
-                        inherit: '+',
-                },
-		'+': {
-			id: 'voice',
-			name: "Voice",
-			description: "They can use ! commands like !groups, and talk during moderated chat",
-			inherit: ' ',
-			broadcast: true,
-			joinbattle: true,
-			tournaments: true
-		},
-		' ': {
-			alts: 's',
-			ip: 's'
-		}
+	{
+		symbol: '&',
+		id: "leader",
+		name: "Leader",
+		inherit: '@',
+		jurisdiction: '@u',
+		promote: 'u',
+		forcewin: true,
+		declare: true,
+		modchatall: true,
+		rangeban: true,
+		potd: true,
+		disableladder: true,
+		globalonly: true,
+		tournamentsmanagement: true
+	},
+	{
+		symbol: '#',
+		id: "owner",
+		name: "Room Owner",
+		inherit: '@',
+		jurisdiction: 'u',
+		roommod: true,
+		roomdriver: true,
+		declare: true,
+		modchatall: true,
+		roomonly: true,
+		tournamentsmanagement: true
+	},
+	{
+		symbol: '\u2605',
+		id: "player",
+		name: "Player",
+		inherit: '+',
+		roomvoice: true,
+		modchat: true,
+		roomonly: true,
+		privateroom: true,
+		joinbattle: true
+	},
+	{
+		symbol: '@',
+		id: "mod",
+		name: "Moderator",
+		inherit: '%',
+		jurisdiction: 'u',
+		ban: true,
+		modchat: true,
+		roomvoice: true,
+		forcerename: true,
+		ip: true,
+		alts: '@u',
+		tournaments: true
+	},
+	{
+		symbol: '%',
+		id: "driver",
+		name: "Driver",
+		inherit: '+',
+		jurisdiction: 'u',
+		announce: true,
+		warn: true,
+		kick: true,
+		mute: true,
+		lock: true,
+		forcerename: true,
+		timer: true,
+		modlog: true,
+		alts: '%u',
+		bypassblocks: 'u%@&~',
+		receiveauthmessages: true,
+		tournamentsmoderation: true,
+		jeopardy: true,
+		joinbattle: true
+	},
+	{
+		symbol: '+',
+		id: "voice",
+		name: "Voice",
+		inherit: ' ',
+		broadcast: true
+	},
+	{
+		symbol: ' ',
+		ip: 's',
+		alts: 's'
 	}
-};
-
-exports.groups.globalByRank = exports.groups.byRank.filter(function (a) { return exports.groups.global[a]; });
-exports.groups.chatRoomByRank = exports.groups.byRank.filter(function (a) { return exports.groups.chatRoom[a]; });
-exports.groups.battleRoomByRank = exports.groups.byRank.filter(function (a) { return exports.groups.battleRoom[a]; });
-exports.groups.byId = {};
-exports.groups.byRank.forEach(function (group, rank) {
-	var groupData = exports.groups.bySymbol[group];
-	if (groupData.id) exports.groups.byId[groupData.id] = group;
-	groupData.rank = rank;
-});
-exports.groups.globalByRank.forEach(function (group, rank) { exports.groups.bySymbol[group].globalRank = rank; });
-exports.groups.chatRoomByRank.forEach(function (group, rank) { exports.groups.bySymbol[group].chatRoomRank = rank; });
-exports.groups.battleRoomByRank.forEach(function (group, rank) { exports.groups.bySymbol[group].battleRoomRank = rank; });
+];
